@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% block title %}Careers{% endblock %}
+{% block meta_description %}Explore career opportunities at TechCorp Solutions. Join our global team of 1,200+ technology professionals.{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <div class="container">
+    <h1>Careers at <span class="text-primary">TechCorp</span></h1>
+    <p class="lead text-white-75">Join a team building the future of enterprise technology.</p>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb justify-content-center">
+        <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Home</a></li>
+        <li class="breadcrumb-item active">Careers</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<!-- Open Positions -->
+<section class="py-section bg-light">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <span class="section-tag">Join Our Team</span>
+      <h2 class="section-title">Open <span class="text-primary">Positions</span></h2>
+      <p class="section-sub">We're growing fast. Find your next role below.</p>
+    </div>
+    <div class="row g-4">
+      {% for job in jobs %}
+      <div class="col-md-6">
+        <div class="card job-card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div>
+                <h5 class="fw-700 mb-1">{{ job.title }}</h5>
+                <p class="text-muted small mb-0"><i class="bi bi-building me-1"></i>{{ job.department }}</p>
+              </div>
+              <span class="badge bg-primary-subtle text-primary">{{ job.type }}</span>
+            </div>
+            <p class="text-muted small mb-3">{{ job.desc }}</p>
+            <div class="d-flex align-items-center gap-3 mb-3 text-muted small">
+              <span><i class="bi bi-geo-alt me-1"></i>{{ job.location }}</span>
+            </div>
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#applyModal" data-position="{{ job.title }}">
+              Apply Now <i class="bi bi-arrow-right ms-1"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Why Join Us -->
+<section class="py-section bg-white">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="section-title">Why Work at <span class="text-primary">TechCorp?</span></h2>
+    </div>
+    <div class="row g-4">
+      {% set benefits = [
+        ('bi-mortarboard', 'Continuous Learning', 'Annual $3,000 learning budget, certifications covered, conference attendance.'),
+        ('bi-cash-stack', 'Competitive Pay', 'Market-leading salaries, performance bonuses, and equity for senior roles.'),
+        ('bi-globe', 'Global Exposure', 'Work with clients and colleagues across 30+ countries on cutting-edge projects.'),
+        ('bi-heart-pulse', 'Health & Wellness', 'Comprehensive medical, dental, and vision + mental health support.'),
+        ('bi-house-heart', 'Flexible Work', 'Remote-first. Work from anywhere with flexible hours.'),
+        ('bi-people', 'Inclusive Culture', 'Diverse, welcoming environment where every voice matters.'),
+      ] %}
+      {% for icon, title, desc in benefits %}
+      <div class="col-md-4">
+        <div class="benefit-card text-center p-4 h-100">
+          <div class="benefit-icon mx-auto mb-3"><i class="bi {{ icon }}"></i></div>
+          <h6 class="fw-700 mb-2">{{ title }}</h6>
+          <p class="text-muted small mb-0">{{ desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- General Application CTA -->
+<section class="py-5 bg-primary-subtle">
+  <div class="container text-center">
+    <h4 class="fw-700 mb-2">Don't see your role?</h4>
+    <p class="text-muted mb-4">We're always looking for great talent. Send us your resume and we'll keep you in mind for future opportunities.</p>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#applyModal" data-position="General Application">
+      <i class="bi bi-envelope me-2"></i>Send Your Resume
+    </button>
+  </div>
+</section>
+
+<!-- Apply Modal -->
+<div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-700" id="applyModalLabel">Apply for Position</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form action="{{ url_for('contact.apply') }}" method="POST" novalidate>
+          <input type="hidden" name="position" id="applyPosition" value="" />
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label fw-600">Full Name *</label>
+              <input type="text" name="name" class="form-control" placeholder="John Doe" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-600">Email Address *</label>
+              <input type="email" name="email" class="form-control" placeholder="john@example.com" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-600">Phone Number</label>
+              <input type="tel" name="phone" class="form-control" placeholder="+1 (555) 000-0000" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-600">Years of Experience</label>
+              <select name="experience" class="form-select">
+                <option value="">Select...</option>
+                <option value="0-2">0-2 years</option>
+                <option value="3-5">3-5 years</option>
+                <option value="5-8">5-8 years</option>
+                <option value="8-12">8-12 years</option>
+                <option value="12+">12+ years</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-600">Cover Letter / Message</label>
+              <textarea name="message" class="form-control" rows="4" placeholder="Tell us about yourself and why you're a great fit..."></textarea>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary px-5">
+                <i class="bi bi-send me-2"></i>Submit Application
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const applyModal = document.getElementById('applyModal');
+if (applyModal) {
+  applyModal.addEventListener('show.bs.modal', function(e) {
+    const btn = e.relatedTarget;
+    const pos = btn ? btn.getAttribute('data-position') : '';
+    document.getElementById('applyPosition').value = pos || '';
+    document.getElementById('applyModalLabel').textContent = pos ? 'Apply: ' + pos : 'Submit Application';
+  });
+}
+</script>
+{% endblock %}

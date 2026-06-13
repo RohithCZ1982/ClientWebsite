@@ -1,0 +1,27 @@
+{% extends "admin/base.html" %}
+{% block title %}Subscribers{% endblock %}
+{% block page_title %}Newsletter Subscribers{% endblock %}
+
+{% block content %}
+<div class="card border-0 shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead class="table-light">
+        <tr><th class="ps-4">Email</th><th>Status</th><th>Subscribed</th></tr>
+      </thead>
+      <tbody>
+        {% for s in subscribers %}
+        <tr>
+          <td class="ps-4 small">{{ s.email }}</td>
+          <td><span class="badge bg-{{ 'success' if s.is_active else 'secondary' }}-subtle text-{{ 'success' if s.is_active else 'secondary' }}">{{ 'Active' if s.is_active else 'Unsubscribed' }}</span></td>
+          <td class="small text-muted">{{ s.subscribed_at.strftime('%d %b %Y') }}</td>
+        </tr>
+        {% endfor %}
+        {% if not subscribers %}
+        <tr><td colspan="3" class="text-center py-4 text-muted">No subscribers yet.</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

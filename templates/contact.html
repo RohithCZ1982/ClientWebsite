@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %}Contact Us{% endblock %}
+{% block meta_description %}Contact TechCorp Solutions for inquiries, partnerships, or a free consultation. We respond within 24 hours.{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <div class="container">
+    <h1>Get in <span class="text-primary">Touch</span></h1>
+    <p class="lead text-white-75">We'd love to hear from you. Let's start a conversation.</p>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb justify-content-center">
+        <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Home</a></li>
+        <li class="breadcrumb-item active">Contact</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<section class="py-section bg-light">
+  <div class="container">
+    <div class="row g-5">
+
+      <!-- Contact Info -->
+      <div class="col-lg-4">
+        <h4 class="fw-700 mb-4">Contact Information</h4>
+        <div class="d-flex flex-column gap-4">
+          <div class="contact-info-item d-flex gap-3 align-items-start">
+            <div class="contact-icon"><i class="bi bi-envelope-fill"></i></div>
+            <div>
+              <div class="fw-600">Email</div>
+              <a href="mailto:{{ config.COMPANY_EMAIL }}" class="text-muted text-decoration-none">{{ config.COMPANY_EMAIL }}</a>
+            </div>
+          </div>
+          <div class="contact-info-item d-flex gap-3 align-items-start">
+            <div class="contact-icon"><i class="bi bi-telephone-fill"></i></div>
+            <div>
+              <div class="fw-600">Phone</div>
+              <a href="tel:{{ config.COMPANY_PHONE }}" class="text-muted text-decoration-none">{{ config.COMPANY_PHONE }}</a>
+            </div>
+          </div>
+          <div class="contact-info-item d-flex gap-3 align-items-start">
+            <div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
+            <div>
+              <div class="fw-600">Address</div>
+              <p class="text-muted mb-0">{{ config.COMPANY_ADDRESS }}</p>
+            </div>
+          </div>
+          <div class="contact-info-item d-flex gap-3 align-items-start">
+            <div class="contact-icon"><i class="bi bi-clock-fill"></i></div>
+            <div>
+              <div class="fw-600">Business Hours</div>
+              <p class="text-muted mb-0">Mon–Fri: 9 AM – 6 PM EST</p>
+              <p class="text-muted mb-0">Support: 24/7</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <h6 class="fw-700 mb-3">Follow Us</h6>
+          <div class="d-flex gap-2">
+            <a href="{{ config.COMPANY_LINKEDIN }}" target="_blank" class="btn btn-outline-primary btn-sm"><i class="bi bi-linkedin"></i></a>
+            <a href="{{ config.COMPANY_TWITTER }}" target="_blank" class="btn btn-outline-secondary btn-sm"><i class="bi bi-twitter-x"></i></a>
+            <a href="{{ config.COMPANY_FACEBOOK }}" target="_blank" class="btn btn-outline-secondary btn-sm"><i class="bi bi-facebook"></i></a>
+            <a href="{{ config.COMPANY_YOUTUBE }}" target="_blank" class="btn btn-outline-danger btn-sm"><i class="bi bi-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enquiry Form -->
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm p-4 p-lg-5">
+          <h4 class="fw-700 mb-1">Send Us a Message</h4>
+          <p class="text-muted mb-4">Fill in the form below and we'll get back to you within 24 hours.</p>
+          <form action="{{ url_for('contact.contact_page') }}" method="POST" novalidate id="contactForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-600">Full Name *</label>
+                <input type="text" name="name" class="form-control" placeholder="John Doe"
+                       value="{{ form_data.get('name', '') }}" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-600">Email Address *</label>
+                <input type="email" name="email" class="form-control" placeholder="john@example.com"
+                       value="{{ form_data.get('email', '') }}" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-600">Phone Number</label>
+                <input type="tel" name="phone" class="form-control" placeholder="+1 (555) 000-0000"
+                       value="{{ form_data.get('phone', '') }}" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-600">Company</label>
+                <input type="text" name="company" class="form-control" placeholder="Your Company Ltd."
+                       value="{{ form_data.get('company', '') }}" />
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-600">Subject</label>
+                <select name="subject" class="form-select">
+                  <option value="">Select a topic...</option>
+                  <option {{ 'selected' if form_data.get('subject') == 'General Inquiry' }}>General Inquiry</option>
+                  <option {{ 'selected' if form_data.get('subject') == 'Service Information' }}>Service Information</option>
+                  <option {{ 'selected' if form_data.get('subject') == 'Partnership' }}>Partnership</option>
+                  <option {{ 'selected' if form_data.get('subject') == 'Technical Support' }}>Technical Support</option>
+                  <option {{ 'selected' if form_data.get('subject') == 'Pricing & Quotes' }}>Pricing & Quotes</option>
+                  <option {{ 'selected' if form_data.get('subject') == 'Other' }}>Other</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-600">Message *</label>
+                <textarea name="message" class="form-control" rows="5"
+                          placeholder="Tell us about your project or inquiry..."
+                          required>{{ form_data.get('message', '') }}</textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-lg px-5">
+                  <i class="bi bi-send me-2"></i>Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Map placeholder -->
+<div class="bg-light border-top" style="height:300px; display:flex; align-items:center; justify-content:center;">
+  <div class="text-center text-muted">
+    <i class="bi bi-map fs-1 mb-2 d-block"></i>
+    <p class="mb-0">Map integration — replace with Google Maps embed</p>
+    <small>123 Tech Avenue, Silicon Valley, CA 94025</small>
+  </div>
+</div>
+{% endblock %}

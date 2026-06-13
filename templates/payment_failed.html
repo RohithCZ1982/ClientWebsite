@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Payment Failed{% endblock %}
+{% block content %}
+<section class="py-section bg-light min-vh-100 d-flex align-items-center">
+  <div class="container text-center">
+    <div class="mb-4"><i class="bi bi-x-circle-fill text-danger" style="font-size:5rem;"></i></div>
+    <h2 class="fw-800 text-danger mb-3">Payment Failed</h2>
+    <p class="lead text-muted mb-5">We couldn't process your payment. Please try again or contact our support team if the issue persists.</p>
+    <div class="d-flex flex-wrap gap-3 justify-content-center">
+      <a href="{{ url_for('payment.index') }}" class="btn btn-primary btn-lg px-5">Try Again</a>
+      <a href="{{ url_for('contact.contact_page') }}" class="btn btn-outline-primary btn-lg px-5">Contact Support</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
