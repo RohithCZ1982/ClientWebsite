@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: techcorp-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - techcorp-network
+
+  wordpress:
+    image: wordpress:latest
+    container_name: techcorp-wordpress
+    depends_on:
+      - mysql
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DEBUG: 'true'
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_DEBUG_LOG', '/var/www/html/wp-content/debug.log');
+        define('WP_DEBUG_DISPLAY', false);
+    ports:
+      - "80:80"
+    volumes:
+      - ./wordpress-theme/techcorp:/var/www/html/wp-content/themes/techcorp
+      - wordpress_data:/var/www/html
+    networks:
+      - techcorp-network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  wordpress_data:
+
+networks:
+  techcorp-network:
+    driver: bridge

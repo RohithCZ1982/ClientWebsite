@@ -103,6 +103,8 @@ add_action( 'after_switch_theme', 'techcorp_activate' );
 function techcorp_import_demo_data() {
     if ( get_option( 'techcorp_demo_imported' ) ) return;
 
+    require_once ABSPATH . 'wp-admin/includes/taxonomy.php';
+
     // Default options
     $defaults = [
         'techcorp_company_name'    => get_bloginfo('name') ?: 'TechCorp Solutions',
