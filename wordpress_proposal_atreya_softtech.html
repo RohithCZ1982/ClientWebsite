@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WordPress Website Development Proposal — Atreya SoftTech</title>
+<style>
+  /* ── Reset & base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1e293b; background: #f1f5f9; line-height: 1.7; }
+
+  /* ── Layout ── */
+  .page { width: 860px; max-width: 100%; margin: 32px auto; background: #fff; box-shadow: 0 4px 32px rgba(0,0,0,.1); }
+  section { padding: 48px 56px; }
+  section + section { border-top: 1px solid #e2e8f0; }
+
+  /* ── Cover ── */
+  .cover {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0d2444 100%);
+    color: #fff; padding: 64px 56px; position: relative; overflow: hidden;
+  }
+  .cover::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(13,110,253,.3) 0%, transparent 65%);
+  }
+  .cover > * { position: relative; z-index: 1; }
+  .cover-badge {
+    display: inline-block; background: rgba(13,110,253,.25); border: 1px solid rgba(13,110,253,.5);
+    color: #93c5fd; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 50px; margin-bottom: 28px;
+  }
+  .cover h1 { font-size: 36px; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+  .cover h1 span { color: #60a5fa; }
+  .cover .sub { color: rgba(255,255,255,.65); font-size: 15px; margin-bottom: 36px; }
+  .cover-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cover-item { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+    border-radius: 10px; padding: 14px 18px; }
+  .cover-item .label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+    color: rgba(255,255,255,.45); margin-bottom: 4px; }
+  .cover-item .value { font-size: 14px; font-weight: 600; color: #fff; }
+  .wp-badge {
+    position: absolute; top: 48px; right: 56px;
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+    border-radius: 12px; padding: 12px 18px; text-align: center;
+  }
+  .wp-badge .wp-icon { font-size: 32px; margin-bottom: 4px; }
+  .wp-badge .wp-lbl { font-size: 11px; color: rgba(255,255,255,.5); }
+
+  /* ── Typography helpers ── */
+  h2 { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px; }
+  h2 span { color: #0d6efd; }
+  h3 { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 12px; }
+  p  { color: #475569; margin-bottom: 12px; }
+  .section-label {
+    display: inline-block; background: rgba(13,110,253,.08); color: #0d6efd;
+    font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 50px; border: 1px solid rgba(13,110,253,.18); margin-bottom: 16px;
+  }
+  .divider { border: none; border-top: 2px solid #0d6efd; width: 40px; margin: 8px 0 24px; }
+
+  /* ── Info boxes ── */
+  .info-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .info-box.blue { background: rgba(13,110,253,.04); border-color: rgba(13,110,253,.2); }
+  .info-box.green { background: rgba(34,197,94,.04); border-color: rgba(34,197,94,.25); }
+  .info-box.amber { background: rgba(245,158,11,.04); border-color: rgba(245,158,11,.25); }
+  .info-box h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .info-box p  { font-size: 13px; margin: 0; }
+
+  /* ── Feature grid ── */
+  .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .feature-item { display: flex; gap: 10px; align-items: flex-start;
+    background: #f8fafc; border-radius: 8px; padding: 12px 14px; }
+  .feature-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .feature-item h5 { font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
+  .feature-item p  { font-size: 11px; color: #64748b; margin: 0; }
+
+  /* ── Tables ── */
+  table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px; }
+  thead th { background: #0f172a; color: #fff; padding: 10px 14px; font-weight: 600; font-size: 12px; text-align: left; }
+  thead th:last-child, td:last-child { text-align: right; }
+  tbody tr:nth-child(even) { background: #f8fafc; }
+  tbody td { padding: 9px 14px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tfoot td { padding: 10px 14px; font-weight: 700; font-size: 13px; }
+  .tfoot-sub { background: #f1f5f9; color: #475569; }
+  .tfoot-total { background: #0d6efd; color: #fff; }
+  .tfoot-gst { background: #1e3a5f; color: #fff; }
+
+  /* ── Cost summary card ── */
+  .cost-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 24px 0; }
+  .cost-card { border-radius: 10px; padding: 20px; text-align: center; }
+  .cost-card.y1 { background: linear-gradient(135deg, #0d6efd, #3b82f6); color: #fff; }
+  .cost-card.mo { background: linear-gradient(135deg, #059669, #10b981); color: #fff; }
+  .cost-card.y2 { background: linear-gradient(135deg, #7c3aed, #a78bfa); color: #fff; }
+  .cost-card .amount { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
+  .cost-card .label  { font-size: 11px; opacity: .8; font-weight: 600; }
+
+  /* ── Comparison ── */
+  .compare-table thead th { background: #1e293b; }
+  .compare-table .wp { background: rgba(34,197,94,.08); }
+  .compare-table .flask { background: rgba(239,68,68,.06); }
+  .compare-table td.wp   { color: #166534; font-weight: 600; }
+  .compare-table td.flask { color: #991b1b; }
+  .badge-green { background: #dcfce7; color: #166534; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 50px; }
+  .badge-red   { background: #fee2e2; color: #991b1b; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 50px; }
+
+  /* ── Payment schedule ── */
+  .milestone-row { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid #e2e8f0; }
+  .milestone-row:last-child { border-bottom: none; }
+  .milestone-num { width: 36px; height: 36px; border-radius: 50%; background: #0d6efd; color: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+  .milestone-body { flex: 1; }
+  .milestone-body h5 { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .milestone-body p  { font-size: 12px; color: #64748b; margin: 0; }
+  .milestone-amount { font-size: 16px; font-weight: 800; color: #0d6efd; white-space: nowrap; }
+
+  /* ── T&C ── */
+  .tc-list { list-style: none; padding: 0; }
+  .tc-list li { padding: 7px 0 7px 22px; position: relative; font-size: 12px; color: #475569;
+    border-bottom: 1px solid #f1f5f9; }
+  .tc-list li:last-child { border-bottom: none; }
+  .tc-list li::before { content: '§'; position: absolute; left: 0; color: #0d6efd; font-weight: 700; }
+
+  /* ── Signature ── */
+  .sig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 32px; }
+  .sig-block .sig-line { border-top: 1px solid #0f172a; margin-top: 48px; padding-top: 8px; }
+  .sig-block .sig-name { font-weight: 700; font-size: 13px; }
+  .sig-block .sig-role { font-size: 12px; color: #64748b; }
+
+  /* ── Footer bar ── */
+  .doc-footer { background: #0f172a; color: rgba(255,255,255,.45); font-size: 11px;
+    padding: 14px 56px; display: flex; justify-content: space-between; }
+  .doc-footer a { color: rgba(255,255,255,.5); text-decoration: none; }
+
+  /* ── Savings highlight ── */
+  .savings-box { background: linear-gradient(135deg, rgba(34,197,94,.08), rgba(5,150,105,.06));
+    border: 2px solid rgba(34,197,94,.3); border-radius: 12px; padding: 20px 24px; margin: 20px 0; }
+  .savings-box h4 { color: #065f46; font-size: 14px; font-weight: 800; margin-bottom: 6px; }
+  .savings-box p  { font-size: 13px; color: #047857; margin: 0; }
+
+  /* ── Print ── */
+  @media print {
+    body { background: #fff; }
+    .page { box-shadow: none; margin: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ════════════════ COVER ════════════════ -->
+  <div class="cover">
+    <div class="wp-badge">
+      <div class="wp-icon">🔷</div>
+      <div class="wp-lbl">WordPress</div>
+    </div>
+    <div class="cover-badge">Website Development Proposal</div>
+    <h1>Corporate Website in<br><span>WordPress</span></h1>
+    <p class="sub">Prepared exclusively for the client by Atreya SoftTech Pvt. Ltd.</p>
+    <div class="cover-grid">
+      <div class="cover-item">
+        <div class="label">Proposal Reference</div>
+        <div class="value">AST-WP-2026-0614</div>
+      </div>
+      <div class="cover-item">
+        <div class="label">Date Issued</div>
+        <div class="value">14 June 2026</div>
+      </div>
+      <div class="cover-item">
+        <div class="label">Valid Until</div>
+        <div class="value">14 July 2026</div>
+      </div>
+      <div class="cover-item">
+        <div class="label">Technology Stack</div>
+        <div class="value">WordPress + Bootstrap 5</div>
+      </div>
+      <div class="cover-item">
+        <div class="label">Submitted By</div>
+        <div class="value">Atreya SoftTech Pvt. Ltd.</div>
+      </div>
+      <div class="cover-item">
+        <div class="label">Address</div>
+        <div class="value">Mysore, Karnataka, India</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════ EXECUTIVE SUMMARY ════════════════ -->
+  <section>
+    <div class="section-label">Executive Summary</div>
+    <h2>Why Choose <span>WordPress</span>?</h2>
+    <hr class="divider" />
+    <p>
+      This proposal covers the design, development, and deployment of a complete corporate website
+      on <strong>WordPress CMS</strong> with a fully custom Bootstrap 5 theme — no page-builder
+      lock-in (no Elementor, Divi, or WPBakery). The result is a fast, SEO-optimised, easily
+      maintainable website that the client team can update without developer involvement.
+    </p>
+    <p>
+      Compared to a custom Python/Flask application, WordPress significantly reduces both
+      upfront development cost and ongoing server infrastructure cost, while delivering
+      equivalent functionality through purpose-built plugins and a robust admin panel.
+    </p>
+
+    <div class="savings-box">
+      <h4>💰 Estimated Savings vs Custom Flask Application</h4>
+      <p>
+        <strong>Year 1 savings: ≈ ₹1,39,306</strong> &nbsp;|&nbsp;
+        WordPress Year 1 total: <strong>₹1,14,760</strong> &nbsp;vs&nbsp; Flask: <strong>₹2,54,066</strong>
+      </p>
+    </div>
+
+    <div class="info-box blue">
+      <h4>📦 Delivery Platform</h4>
+      <p>WordPress 6.x · Custom Bootstrap 5 PHP theme (no page builder) · Hostinger Business Shared
+         Hosting (auto-SSL, 1-click WordPress install, LiteSpeed cache) · Razorpay payment gateway.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════ SCOPE OF WORK ════════════════ -->
+  <section>
+    <div class="section-label">Scope of Work</div>
+    <h2>What's <span>Included</span></h2>
+    <hr class="divider" />
+
+    <div class="feature-grid">
+      <div class="feature-item">
+        <span class="feature-icon">🏠</span>
+        <div>
+          <h5>11 Pages</h5>
+          <p>Home, About, Services (grid + detail), Team, Careers, Blog, Contact, Downloads, Pricing, Signup</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🎨</span>
+        <div>
+          <h5>Custom WordPress Theme</h5>
+          <p>Bootstrap 5 responsive theme; no Elementor; fully branded corporate design</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">📂</span>
+        <div>
+          <h5>5 Custom Post Types</h5>
+          <p>Services, Team, Jobs (Careers), Downloads, Testimonials — managed from WP Admin</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">💳</span>
+        <div>
+          <h5>Razorpay Payment Gateway</h5>
+          <p>3 pricing plans, order creation, signature verification, webhook, success/fail pages</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">📝</span>
+        <div>
+          <h5>Blog / CMS</h5>
+          <p>Native WordPress blog with categories, tags, featured images, author profiles</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">📧</span>
+        <div>
+          <h5>Contact & Newsletter</h5>
+          <p>AJAX contact form, job applications, newsletter subscriber list in WP Admin</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🔍</span>
+        <div>
+          <h5>SEO Ready</h5>
+          <p>Yoast SEO plugin, XML sitemap, Open Graph, schema markup, Lighthouse &gt;90</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🔒</span>
+        <div>
+          <h5>Security</h5>
+          <p>Wordfence / iThemes Security, login protection, nonce verification, input sanitisation</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">⚡</span>
+        <div>
+          <h5>Performance</h5>
+          <p>LiteSpeed cache, image compression, lazy loading, CDN-ready, Core Web Vitals optimised</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🌐</span>
+        <div>
+          <h5>Google Integrations</h5>
+          <p>GA4 analytics, Google Maps embed (contact page), Search Console verification</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🛠️</span>
+        <div>
+          <h5>Admin Settings Panel</h5>
+          <p>Custom WP Settings page for company info, Razorpay keys, GA4 ID, Maps API key</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🚀</span>
+        <div>
+          <h5>Demo Data + Deployment</h5>
+          <p>Auto-import demo content on activation; deployed to Hostinger with SSL & backups</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box amber">
+      <h4>⚠️ Not Included in This Proposal</h4>
+      <p>E-commerce (WooCommerce product catalogue), native mobile apps, CRM integration,
+         custom REST API development beyond payment endpoints, multilingual setup (WPML/Polylang).
+         These can be quoted separately.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════ DEVELOPMENT COST ════════════════ -->
+  <section>
+    <div class="section-label">One-Time Development Cost</div>
+    <h2>Development <span>Estimate</span></h2>
+    <hr class="divider" />
+    <p>All development work is performed by Atreya SoftTech in-house. Hourly rate: <strong>₹600/hr</strong> (inclusive of design, development, QA, and deployment).</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Module</th>
+          <th>Description</th>
+          <th>Hours</th>
+          <th>Cost (₹)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>WordPress Theme Setup</td><td>Custom Bootstrap 5 theme, header/footer, nav, responsive</td><td>8</td><td>₹4,800</td></tr>
+        <tr><td>Custom Post Types &amp; Taxonomies</td><td>Services, Team, Jobs, Downloads, Testimonials + meta boxes</td><td>6</td><td>₹3,600</td></tr>
+        <tr><td>Home Page</td><td>Hero, stats, services grid, testimonials, blog preview, CTA</td><td>5</td><td>₹3,000</td></tr>
+        <tr><td>About Page</td><td>Story, stats, mission/vision/values, team preview, certifications</td><td>3</td><td>₹1,800</td></tr>
+        <tr><td>Services (List + Detail)</td><td>Archive grid with filters, single service detail pages</td><td>4</td><td>₹2,400</td></tr>
+        <tr><td>Team Page</td><td>Full team grid from CPT with social links, culture section</td><td>3</td><td>₹1,800</td></tr>
+        <tr><td>Careers / Jobs Page</td><td>Job listings, AJAX apply modal, application management</td><td>4</td><td>₹2,400</td></tr>
+        <tr><td>Blog (List + Single)</td><td>Paginated archive, category filters, single post with related</td><td>4</td><td>₹2,400</td></tr>
+        <tr><td>Contact Page</td><td>AJAX contact form, Google Maps embed, enquiry management</td><td>3</td><td>₹1,800</td></tr>
+        <tr><td>Downloads Page</td><td>File download management, category filters, download counter</td><td>3</td><td>₹1,800</td></tr>
+        <tr><td>Pricing / Payment Page</td><td>3 plan cards, FAQ accordion, Razorpay integration</td><td>5</td><td>₹3,000</td></tr>
+        <tr><td>Razorpay Integration</td><td>Order creation, payment verification, webhook, demo mode</td><td>6</td><td>₹3,600</td></tr>
+        <tr><td>AJAX Handlers</td><td>Contact, newsletter, job apply, Razorpay via WP AJAX API</td><td>4</td><td>₹2,400</td></tr>
+        <tr><td>Admin Settings Page</td><td>Company info, Razorpay keys, GA4, Maps API, newsletter list</td><td>3</td><td>₹1,800</td></tr>
+        <tr><td>CSS / JavaScript</td><td>Custom theme.css (animations, cards, pricing) + theme.js</td><td>5</td><td>₹3,000</td></tr>
+        <tr><td>Newsletter</td><td>Footer subscription, WP Admin subscriber export</td><td>2</td><td>₹1,200</td></tr>
+        <tr><td>Demo Data Import</td><td>Auto-seed services, team, jobs, blog on theme activation</td><td>2</td><td>₹1,200</td></tr>
+        <tr><td>SEO Setup</td><td>Yoast SEO config, XML sitemap, Open Graph, schema</td><td>3</td><td>₹1,800</td></tr>
+        <tr><td>Security Hardening</td><td>Wordfence, login protection, headers, nonce checks</td><td>2</td><td>₹1,200</td></tr>
+        <tr><td>Performance Optimisation</td><td>LiteSpeed cache, image optimisation, Core Web Vitals</td><td>2</td><td>₹1,200</td></tr>
+        <tr><td>QA &amp; Browser Testing</td><td>Cross-browser, mobile responsiveness, accessibility audit</td><td>4</td><td>₹2,400</td></tr>
+        <tr><td>Hosting Setup &amp; Deployment</td><td>Hostinger setup, SSL, DNS, backups, cron, live launch</td><td>3</td><td>₹1,800</td></tr>
+        <tr><td>Client Training &amp; Handover</td><td>WP Admin training session, documentation handover</td><td>2</td><td>₹1,200</td></tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot-sub"><td colspan="2"><strong>Subtotal</strong></td><td><strong>86 hrs</strong></td><td><strong>₹51,600</strong></td></tr>
+        <tr class="tfoot-gst"><td colspan="3"><strong>GST @ 18%</strong></td><td><strong>₹9,288</strong></td></tr>
+        <tr class="tfoot-total"><td colspan="3"><strong>TOTAL DEVELOPMENT COST</strong></td><td><strong>₹60,888</strong></td></tr>
+      </tfoot>
+    </table>
+
+    <div class="info-box green">
+      <h4>✅ Why Lower Cost Than Flask?</h4>
+      <p>WordPress provides built-in CMS, user management, REST API, and AJAX infrastructure, reducing
+         custom code by ~35 hours. The savings vs the Flask proposal
+         (₹2,00,718 incl. GST) total approximately <strong>₹1,39,830</strong> on development alone.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════ RECURRING COSTS ════════════════ -->
+  <section>
+    <div class="section-label">Third-Party Recurring Costs</div>
+    <h2>Annual &amp; Monthly <span>Expenses</span></h2>
+    <hr class="divider" />
+    <p>These are direct costs payable to third-party providers. Atreya SoftTech does not mark up these costs — invoices/subscriptions are in the client's name.</p>
+
+    <!-- A: Domain -->
+    <h3>A. Domain Name Registration</h3>
+    <table>
+      <thead><tr><th>Item</th><th>Provider</th><th>Year 1</th><th>Year 2+</th></tr></thead>
+      <tbody>
+        <tr><td>.com domain (e.g., yourcompany.com)</td><td>GoDaddy / Hostinger</td><td>₹999</td><td>₹999/yr</td></tr>
+        <tr><td>WHOIS Privacy Protection</td><td>Same registrar</td><td>₹299</td><td>₹299/yr</td></tr>
+      </tbody>
+      <tfoot><tr class="tfoot-sub"><td colspan="2"><strong>Domain Subtotal</strong></td><td><strong>₹1,298</strong></td><td><strong>₹1,298/yr</strong></td></tr></tfoot>
+    </table>
+
+    <!-- B: Hosting -->
+    <h3>B. Web Hosting — Hostinger Business Shared (Recommended for WordPress)</h3>
+    <table>
+      <thead><tr><th>Plan</th><th>Specs</th><th>Cost/mo</th><th>Annual</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Hostinger Business</strong> (recommended)</td><td>100 GB NVMe SSD, LiteSpeed, free SSL, daily backups, free domain, CDN</td><td>₹229</td><td>₹2,748</td></tr>
+        <tr><td>Hostinger Premium (budget option)</td><td>100 GB SSD, free SSL, weekly backups, free domain</td><td>₹149</td><td>₹1,788</td></tr>
+        <tr><td>Hostinger Cloud Startup (high-traffic)</td><td>200 GB NVMe, dedicated resources, 3 GB RAM</td><td>₹899</td><td>₹10,788</td></tr>
+      </tbody>
+      <tfoot><tr class="tfoot-sub"><td colspan="2"><strong>Recommended Plan (Business)</strong></td><td><strong>₹229/mo</strong></td><td><strong>₹2,748/yr</strong></td></tr></tfoot>
+    </table>
+    <p style="font-size:12px;color:#64748b">✓ Shared hosting is <strong>5× cheaper</strong> than a VPS (Flask required ₹1,099–1,399/mo VPS). WordPress runs efficiently on shared/LiteSpeed hosting with caching.</p>
+
+    <!-- C: SSL -->
+    <h3>C. SSL Certificate</h3>
+    <table>
+      <thead><tr><th>Option</th><th>Type</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td>Let's Encrypt (via Hostinger AutoSSL)</td><td>DV, 90-day auto-renew</td><td><strong>FREE</strong></td></tr>
+        <tr><td>Comodo PositiveSSL</td><td>DV, 1 year</td><td>₹499/yr</td></tr>
+        <tr><td>Hostinger Premium SSL</td><td>DV, 1 year</td><td>₹699/yr</td></tr>
+      </tbody>
+      <tfoot><tr class="tfoot-sub"><td colspan="2"><strong>Recommended (AutoSSL)</strong></td><td><strong>₹0/yr</strong></td></tr></tfoot>
+    </table>
+
+    <!-- D: Business Email -->
+    <h3>D. Business Email (Google Workspace)</h3>
+    <table>
+      <thead><tr><th>Plan</th><th>Per User / Month</th><th>Annual (3 users)</th></tr></thead>
+      <tbody>
+        <tr><td>Google Workspace Business Starter</td><td>₹125/user/mo</td><td>₹4,500/yr</td></tr>
+        <tr><td>Google Workspace Business Standard</td><td>₹672/user/mo</td><td>₹24,192/yr</td></tr>
+        <tr><td>Zoho Mail (Free up to 5 users)</td><td>₹0 (5 GB/user)</td><td>₹0/yr</td></tr>
+      </tbody>
+      <tfoot><tr class="tfoot-sub"><td colspan="2"><strong>Recommended (Workspace Starter, 3 users)</strong></td><td><strong>₹4,500/yr</strong></td></tr></tfoot>
+    </table>
+
+    <!-- E: WordPress Plugins -->
+    <h3>E. WordPress Plugins (Premium / Annual Subscriptions)</h3>
+    <table>
+      <thead><tr><th>Plugin</th><th>Purpose</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td>Yoast SEO Free</td><td>SEO meta, sitemap, breadcrumbs</td><td>FREE</td></tr>
+        <tr><td>Yoast SEO Premium (optional)</td><td>Advanced internal linking, redirect manager</td><td>₹7,400/yr (~$89)</td></tr>
+        <tr><td>Wordfence Security (Free)</td><td>Firewall, malware scan, login security</td><td>FREE</td></tr>
+        <tr><td>Wordfence Premium (optional)</td><td>Real-time IP block list, faster updates</td><td>₹8,700/yr (~$99)</td></tr>
+        <tr><td>WP Rocket (performance)</td><td>Caching, file minification, lazy load</td><td>₹3,490/yr (~$49)</td></tr>
+        <tr><td>LiteSpeed Cache (alternative)</td><td>Free caching plugin (if on LiteSpeed server)</td><td>FREE</td></tr>
+        <tr><td>UpdraftPlus Premium (backups)</td><td>Daily cloud backups to Google Drive / S3</td><td>₹2,490/yr (~$35)</td></tr>
+        <tr><td>UpdraftPlus Free (alternative)</td><td>Weekly backups — sufficient for most sites</td><td>FREE</td></tr>
+        <tr><td>Smush / ShortPixel (images)</td><td>Image compression and WebP conversion</td><td>FREE / ₹2,700/yr</td></tr>
+        <tr><td>Razorpay for WordPress (core)</td><td>Payment gateway AJAX integration</td><td>FREE</td></tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot-sub"><td colspan="2"><strong>Minimum (all free)</strong></td><td><strong>₹0/yr</strong></td></tr>
+        <tr class="tfoot-gst"><td colspan="2"><strong>Recommended bundle (Yoast + Wordfence + UpdraftPlus Free + WP Rocket)</strong></td><td><strong>₹3,490/yr</strong></td></tr>
+        <tr class="tfoot-total"><td colspan="2"><strong>Full Premium Stack</strong></td><td><strong>₹22,080/yr</strong></td></tr>
+      </tfoot>
+    </table>
+
+    <!-- F: Razorpay -->
+    <h3>F. Razorpay Payment Gateway</h3>
+    <table>
+      <thead><tr><th>Fee Type</th><th>Rate</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Account Setup</td><td>FREE</td><td>No setup fee for standard accounts</td></tr>
+        <tr><td>Transaction Fee — Domestic Cards / UPI / Netbanking</td><td>2% per transaction</td><td>Capped at certain limits; UPI often 0% promotionally</td></tr>
+        <tr><td>Transaction Fee — International Cards</td><td>3% + GST</td><td>Requires prior Razorpay approval</td></tr>
+        <tr><td>Razorpay Smart Collect</td><td>₹0 / transaction (bank transfer)</td><td>For high-value B2B payments</td></tr>
+        <tr><td>Chargeback / Dispute Fee</td><td>₹500–1,500 per chargeback</td><td>Waived if resolved in merchant's favour</td></tr>
+      </tbody>
+      <tfoot><tr class="tfoot-sub"><td colspan="2"><strong>Estimated Annual (₹5L GMV @ avg 2% TDR)</strong></td><td><strong>₹10,000/yr</strong></td></tr></tfoot>
+    </table>
+    <p style="font-size:12px;color:#64748b">Note: Razorpay fees are variable — based on actual transaction volume. The ₹10,000/yr estimate assumes ₹5 lakh GMV.</p>
+
+    <!-- G: CDN -->
+    <h3>G. Content Delivery Network (CDN)</h3>
+    <table>
+      <thead><tr><th>Option</th><th>Description</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td>Cloudflare Free</td><td>Global CDN, DDoS protection, analytics, free SSL proxy</td><td>FREE</td></tr>
+        <tr><td>Cloudflare Pro</td><td>Image optimisation, WAF rules, mobile optimisation</td><td>~₹1,700/mo (₹20,400/yr)</td></tr>
+        <tr><td>Hostinger Built-in CDN</td><td>Included with Business/Cloud plans (150+ PoPs)</td><td>FREE (included)</td></tr>
+      </tbody>
+      <tfoot><tr class="tfoot-sub"><td colspan="2"><strong>Recommended (Hostinger CDN + Cloudflare Free)</strong></td><td><strong>₹0/yr</strong></td></tr></tfoot>
+    </table>
+
+    <!-- H: Backups -->
+    <h3>H. Off-Site Backups</h3>
+    <table>
+      <thead><tr><th>Solution</th><th>Storage</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td>Hostinger Business Auto Backup (included)</td><td>Daily, 30-day retention</td><td>FREE (included)</td></tr>
+        <tr><td>UpdraftPlus Free → Google Drive</td><td>Weekly, unlimited Google storage</td><td>FREE</td></tr>
+        <tr><td>UpdraftPlus Premium</td><td>Daily incremental, 30-day retention</td><td>₹2,490/yr</td></tr>
+      </tbody>
+      <tfoot><tr class="tfoot-sub"><td colspan="2"><strong>Recommended (Hostinger Auto + UpdraftPlus Free)</strong></td><td><strong>₹0/yr</strong></td></tr></tfoot>
+    </table>
+
+    <!-- I: Google Services -->
+    <h3>I. Google / Analytics Services</h3>
+    <table>
+      <thead><tr><th>Service</th><th>Purpose</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td>Google Analytics 4</td><td>Website traffic, user behaviour, conversion tracking</td><td>FREE</td></tr>
+        <tr><td>Google Search Console</td><td>SEO performance, crawl errors, keyword data</td><td>FREE</td></tr>
+        <tr><td>Google Maps Embed API</td><td>Contact page map embed (up to 28,000 loads/mo free)</td><td>FREE (within limits)</td></tr>
+        <tr><td>Google Maps Platform (if exceeded)</td><td>Dynamic Maps, Places, Directions APIs</td><td>~₹680/1,000 requests</td></tr>
+        <tr><td>Google PageSpeed Insights</td><td>Core Web Vitals monitoring</td><td>FREE</td></tr>
+      </tbody>
+      <tfoot><tr class="tfoot-sub"><td colspan="2"><strong>Typical Annual (Maps within free tier)</strong></td><td><strong>₹0/yr</strong></td></tr></tfoot>
+    </table>
+
+    <!-- J: Optional -->
+    <h3>J. Optional / Future Add-ons</h3>
+    <table>
+      <thead><tr><th>Service</th><th>Purpose</th><th>Estimated Cost</th></tr></thead>
+      <tbody>
+        <tr><td>SMTP Email Service (Brevo / SendGrid)</td><td>Transactional emails (contact form, newsletters)</td><td>FREE up to 300/day (Brevo)</td></tr>
+        <tr><td>WPML / Polylang</td><td>Multilingual website</td><td>₹5,500–₹7,400/yr</td></tr>
+        <tr><td>WooCommerce + Razorpay Extension</td><td>Full e-commerce with product catalogue</td><td>FREE (plugins); dev: ₹18,000+</td></tr>
+        <tr><td>HubSpot CRM Plugin</td><td>CRM integration for lead management</td><td>FREE (HubSpot Starter) / ₹1,790/mo Pro</td></tr>
+        <tr><td>Annual Maintenance Retainer</td><td>Plugin updates, security, uptime, minor changes (2 hrs/mo)</td><td>₹3,500/mo (₹42,000/yr)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ════════════════ COST SUMMARY ════════════════ -->
+  <section>
+    <div class="section-label">Financial Summary</div>
+    <h2>Total Cost <span>Breakdown</span></h2>
+    <hr class="divider" />
+
+    <div class="cost-summary">
+      <div class="cost-card y1">
+        <div class="amount">₹68,924</div>
+        <div class="label">Year 1 Total (incl. GST)</div>
+      </div>
+      <div class="cost-card mo">
+        <div class="amount">₹5,744</div>
+        <div class="label">Avg Monthly (Year 1)</div>
+      </div>
+      <div class="cost-card y2">
+        <div class="amount">₹8,036</div>
+        <div class="label">Year 2+ Recurring / yr</div>
+      </div>
+    </div>
+
+    <h3>Year 1 — Complete Cost Table</h3>
+    <table>
+      <thead><tr><th>Category</th><th>Item</th><th>Annual Cost</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="2"><strong>A. Development</strong></td><td>Development + QA (86 hrs @ ₹600)</td><td>₹51,600</td></tr>
+        <tr><td>GST on Development (18%)</td><td>₹9,288</td></tr>
+        <tr><td><strong>B. Domain</strong></td><td>.com + WHOIS Privacy</td><td>₹1,298</td></tr>
+        <tr><td><strong>C. Hosting</strong></td><td>Hostinger Business Shared (12 mo)</td><td>₹2,748</td></tr>
+        <tr><td><strong>D. SSL</strong></td><td>Let's Encrypt AutoSSL</td><td>₹0</td></tr>
+        <tr><td><strong>E. Business Email</strong></td><td>Google Workspace Starter (3 users)</td><td>₹4,500</td></tr>
+        <tr><td><strong>F. Plugins</strong></td><td>WP Rocket (caching) — Year 1</td><td>₹3,490</td></tr>
+        <tr><td><strong>G. Razorpay</strong></td><td>Transaction fees (est. ₹5L GMV @ 2%)</td><td>₹10,000*</td></tr>
+        <tr><td><strong>H. CDN</strong></td><td>Cloudflare Free + Hostinger CDN</td><td>₹0</td></tr>
+        <tr><td><strong>I. Backups</strong></td><td>Hostinger Auto + UpdraftPlus Free</td><td>₹0</td></tr>
+        <tr><td><strong>J. Google Services</strong></td><td>Analytics, Search Console, Maps (free tier)</td><td>₹0</td></tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot-sub"><td colspan="2"><strong>Subtotal (excl. Razorpay TDR)</strong></td><td><strong>₹58,924</strong></td></tr>
+        <tr class="tfoot-gst"><td colspan="2"><strong>Subtotal (incl. est. Razorpay TDR)</strong></td><td><strong>₹68,924</strong></td></tr>
+        <tr class="tfoot-total"><td colspan="2"><strong>YEAR 1 GRAND TOTAL</strong></td><td><strong>₹68,924</strong></td></tr>
+      </tfoot>
+    </table>
+    <p style="font-size:12px;color:#64748b">* Razorpay TDR is a variable cost — included as estimate. Actual may differ based on payment volume.</p>
+
+    <h3>Year 2+ — Annual Recurring Costs</h3>
+    <table>
+      <thead><tr><th>Category</th><th>Item</th><th>Annual</th></tr></thead>
+      <tbody>
+        <tr><td>Domain</td><td>.com renewal + WHOIS Privacy</td><td>₹1,298</td></tr>
+        <tr><td>Hosting</td><td>Hostinger Business Shared renewal</td><td>₹2,748</td></tr>
+        <tr><td>Business Email</td><td>Google Workspace Starter (3 users)</td><td>₹4,500</td></tr>
+        <tr><td>Plugins</td><td>WP Rocket renewal</td><td>₹3,490</td></tr>
+        <tr><td>Razorpay TDR</td><td>Variable — est. ₹5L GMV</td><td>₹10,000*</td></tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot-sub"><td colspan="2"><strong>Annual Recurring (excl. TDR)</strong></td><td><strong>₹8,036</strong></td></tr>
+        <tr class="tfoot-total"><td colspan="2"><strong>Year 2+ Total (incl. est. TDR)</strong></td><td><strong>₹18,036</strong></td></tr>
+      </tfoot>
+    </table>
+  </section>
+
+  <!-- ════════════════ COMPARISON ════════════════ -->
+  <section>
+    <div class="section-label">Platform Comparison</div>
+    <h2>WordPress <span>vs</span> Flask (Python)</h2>
+    <hr class="divider" />
+
+    <table class="compare-table">
+      <thead><tr><th>Factor</th><th>WordPress (This Proposal)</th><th>Custom Flask (Python)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Development Cost</strong></td>
+          <td class="wp">₹60,888 incl. GST<br><span class="badge-green">86 hrs @ ₹600/hr</span></td>
+          <td class="flask">₹2,00,718 incl. GST<br><span class="badge-red">130 hrs @ ₹1,300/hr</span></td>
+        </tr>
+        <tr>
+          <td><strong>Hosting</strong></td>
+          <td class="wp">₹2,748/yr (Shared)<br><span class="badge-green">5× cheaper</span></td>
+          <td class="flask">₹13,188/yr (VPS)<br><span class="badge-red">VPS required</span></td>
+        </tr>
+        <tr>
+          <td><strong>Server Management</strong></td>
+          <td class="wp">None — managed hosting<br><span class="badge-green">1-click WP install</span></td>
+          <td class="flask">Manual Nginx/Gunicorn/systemd<br><span class="badge-red">DevOps knowledge needed</span></td>
+        </tr>
+        <tr>
+          <td><strong>Plugin Costs</strong></td>
+          <td class="wp">₹3,490/yr (optional plugins)</td>
+          <td class="flask">₹0 (all custom code)</td>
+        </tr>
+        <tr>
+          <td><strong>CMS / Content Editing</strong></td>
+          <td class="wp">Native WP Admin<br><span class="badge-green">No-code editing</span></td>
+          <td class="flask">Custom Flask Admin<br><span class="badge-red">Limited UX</span></td>
+        </tr>
+        <tr>
+          <td><strong>SEO</strong></td>
+          <td class="wp">Yoast SEO (plugin)<br><span class="badge-green">GUI-based</span></td>
+          <td class="flask">Manual sitemap.xml + meta tags</td>
+        </tr>
+        <tr>
+          <td><strong>Year 1 Total</strong></td>
+          <td class="wp"><strong>₹68,924</strong><br><span class="badge-green">Savings: ₹1,85,142</span></td>
+          <td class="flask"><strong>₹2,54,066</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Year 2+ Recurring</strong></td>
+          <td class="wp"><strong>₹18,036/yr</strong><br><span class="badge-green">Savings: ₹35,312/yr</span></td>
+          <td class="flask"><strong>₹53,348/yr</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Scalability</strong></td>
+          <td class="wp">Plugin-based (WooCommerce, WPML, etc.)</td>
+          <td class="flask">Unlimited custom code; horizontal scale</td>
+        </tr>
+        <tr>
+          <td><strong>Best For</strong></td>
+          <td class="wp">Corporate brochure + blog + payment</td>
+          <td class="flask">Complex custom logic, high-volume APIs</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="savings-box">
+      <h4>💰 5-Year Estimated Savings with WordPress: ≈ ₹3,26,370</h4>
+      <p>Year 1 savings: ₹1,85,142 · Years 2–5 savings: ₹35,312 × 4 = ₹1,41,248 · Total: ₹3,26,390</p>
+    </div>
+  </section>
+
+  <!-- ════════════════ TIMELINE ════════════════ -->
+  <section>
+    <div class="section-label">Project Timeline</div>
+    <h2>Delivery <span>Schedule</span></h2>
+    <hr class="divider" />
+
+    <table>
+      <thead><tr><th>Phase</th><th>Deliverables</th><th>Duration</th><th>Cumulative</th></tr></thead>
+      <tbody>
+        <tr><td>Phase 1 — Discovery &amp; Setup</td><td>Requirements sign-off, Hostinger setup, WP install, theme skeleton, brand review</td><td>3 days</td><td>Day 3</td></tr>
+        <tr><td>Phase 2 — Core Development</td><td>Custom theme, CPTs, all 11 pages, WP Admin settings, AJAX handlers</td><td>10 days</td><td>Day 13</td></tr>
+        <tr><td>Phase 3 — Integrations</td><td>Razorpay gateway, newsletter, contact forms, job applications, blog system</td><td>5 days</td><td>Day 18</td></tr>
+        <tr><td>Phase 4 — SEO &amp; Performance</td><td>Yoast SEO, sitemap, schema, LiteSpeed/WP Rocket, Core Web Vitals, GA4</td><td>3 days</td><td>Day 21</td></tr>
+        <tr><td>Phase 5 — QA &amp; UAT</td><td>Cross-browser testing, mobile QA, client review, revisions (up to 2 rounds)</td><td>4 days</td><td>Day 25</td></tr>
+        <tr><td>Phase 6 — Launch &amp; Handover</td><td>DNS cutover, live deployment, client training session, documentation</td><td>2 days</td><td>Day 27</td></tr>
+      </tbody>
+      <tfoot><tr class="tfoot-total"><td colspan="3"><strong>Total Project Duration</strong></td><td><strong>~4 Weeks</strong></td></tr></tfoot>
+    </table>
+
+    <div class="info-box">
+      <h4>📅 Faster Than Flask</h4>
+      <p>The Flask application required ~6 weeks. WordPress reduces delivery time to ~4 weeks
+         due to built-in CMS infrastructure, plugin ecosystem, and no server configuration overhead.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════ PAYMENT SCHEDULE ════════════════ -->
+  <section>
+    <div class="section-label">Payment Terms</div>
+    <h2>Payment <span>Schedule</span></h2>
+    <hr class="divider" />
+
+    <div class="milestone-row">
+      <div class="milestone-num">1</div>
+      <div class="milestone-body">
+        <h5>Milestone 1 — Project Kick-off (40%)</h5>
+        <p>Payable upon proposal acceptance and project start. Covers discovery, design, and core development phase.</p>
+      </div>
+      <div class="milestone-amount">₹24,355</div>
+    </div>
+    <div class="milestone-row">
+      <div class="milestone-num">2</div>
+      <div class="milestone-body">
+        <h5>Milestone 2 — Staging Delivery (40%)</h5>
+        <p>Payable when the complete website is deployed to the staging environment for client review.</p>
+      </div>
+      <div class="milestone-amount">₹24,355</div>
+    </div>
+    <div class="milestone-row">
+      <div class="milestone-num">3</div>
+      <div class="milestone-body">
+        <h5>Milestone 3 — Go-Live (20%)</h5>
+        <p>Final payment upon live deployment, client sign-off, and training session completion.</p>
+      </div>
+      <div class="milestone-amount">₹12,178</div>
+    </div>
+
+    <div class="info-box blue" style="margin-top:20px">
+      <h4>💳 Accepted Payment Methods</h4>
+      <p>NEFT / RTGS / IMPS · UPI · Cheque / DD payable to <em>Atreya SoftTech Pvt. Ltd.</em><br />
+         GST Invoice provided within 2 working days of payment receipt.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════ WHAT WE NEED FROM YOU ════════════════ -->
+  <section>
+    <div class="section-label">Client Responsibilities</div>
+    <h2>What We Need <span>From You</span></h2>
+    <hr class="divider" />
+
+    <div class="feature-grid">
+      <div class="feature-item">
+        <span class="feature-icon">🎨</span>
+        <div><h5>Brand Assets</h5><p>Logo (SVG/PNG), brand colours, fonts, brand guidelines if available</p></div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">📝</span>
+        <div><h5>Content</h5><p>Company text, about story, team bios, service descriptions, blog posts (or approval for AI-generated placeholder content)</p></div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🔑</span>
+        <div><h5>Credentials</h5><p>Domain registrar access, Razorpay dashboard (we'll guide account creation), Google Workspace setup</p></div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">✅</span>
+        <div><h5>Timely Feedback</h5><p>UAT feedback within 3 working days of staging delivery to keep the timeline on track</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ TERMS & CONDITIONS ════════════════ -->
+  <section>
+    <div class="section-label">Terms &amp; Conditions</div>
+    <h2>Agreement <span>Terms</span></h2>
+    <hr class="divider" />
+
+    <ul class="tc-list">
+      <li>This proposal is valid for 30 days from the date of issue (14 June 2026). Prices and timelines are subject to revision after the validity period.</li>
+      <li>Development begins upon receipt of the Milestone 1 payment (40% of development cost) and signed acceptance of this proposal.</li>
+      <li>Two (2) rounds of revision are included in the quoted price. Additional revisions beyond the agreed scope will be billed at ₹600/hr.</li>
+      <li>Third-party costs (hosting, domain, plugins, Razorpay fees, Google Workspace) are invoiced directly to the client and are not included in our development fee.</li>
+      <li>Razorpay TDR is a variable cost paid directly to Razorpay per transaction. Atreya SoftTech has no control over or liability for these charges.</li>
+      <li>Source code and all deliverables become client property upon receipt of the final (Milestone 3) payment.</li>
+      <li>Atreya SoftTech will not be responsible for hosting downtime, third-party plugin failures, or WordPress core security issues outside our development scope.</li>
+      <li>A 30-day post-launch support window is included at no charge, covering bug fixes directly related to our development. New feature requests are billed separately.</li>
+      <li>Client-supplied content must be legally owned by the client. Atreya SoftTech is not liable for copyright infringement in client-provided materials.</li>
+      <li>Cancellation after Milestone 1 payment: 40% is non-refundable. Cancellation after Milestone 2: 80% non-refundable. Completed work billed at ₹600/hr.</li>
+      <li>Atreya SoftTech maintains confidentiality of all project details and client data. We will not share or sell client information to third parties.</li>
+      <li>Any dispute shall be resolved by arbitration in Mysore, Karnataka, India, under the Arbitration and Conciliation Act, 1996.</li>
+    </ul>
+  </section>
+
+  <!-- ════════════════ ABOUT ATREYA SOFTTECH ════════════════ -->
+  <section>
+    <div class="section-label">About Us</div>
+    <h2>About <span>Atreya SoftTech</span></h2>
+    <hr class="divider" />
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        <p>Atreya SoftTech Pvt. Ltd. is a Mysore-based software development company specialising in web applications, CMS platforms, and payment integrations for small and medium enterprises across India.</p>
+        <p>We deliver clean, maintainable code with a focus on performance, security, and business outcomes — not just technical delivery.</p>
+      </div>
+      <div class="info-box" style="margin:0">
+        <h4>📍 Contact Details</h4>
+        <p style="margin-bottom:6px"><strong>Atreya SoftTech Pvt. Ltd.</strong></p>
+        <p style="margin-bottom:4px">Mysore, Karnataka – 570001, India</p>
+        <p style="margin-bottom:4px">📧 rohith.mps@gmail.com</p>
+        <p style="margin-bottom:4px">🔢 GSTIN: Pending (to be added)</p>
+        <p style="margin:0">🌐 www.atreyasofttech.com (coming soon)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ SIGNATURES ════════════════ -->
+  <section>
+    <div class="section-label">Acceptance</div>
+    <h2>Proposal <span>Acceptance</span></h2>
+    <hr class="divider" />
+    <p>By signing below, both parties agree to the scope, costs, and terms outlined in this proposal. This document, once signed, serves as a binding project agreement.</p>
+
+    <div class="sig-grid">
+      <div class="sig-block">
+        <p><strong>For Atreya SoftTech Pvt. Ltd.</strong></p>
+        <div class="sig-line">
+          <div class="sig-name">Authorised Signatory</div>
+          <div class="sig-role">Atreya SoftTech Pvt. Ltd., Mysore</div>
+        </div>
+      </div>
+      <div class="sig-block">
+        <p><strong>For Client (Acceptance)</strong></p>
+        <div class="sig-line">
+          <div class="sig-name">Client Name &amp; Designation</div>
+          <div class="sig-role">Company Name &amp; Date</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer bar -->
+  <div class="doc-footer">
+    <span>Ref: AST-WP-2026-0614 &nbsp;·&nbsp; Atreya SoftTech Pvt. Ltd., Mysore &nbsp;·&nbsp; Confidential</span>
+    <span>Valid until 14 July 2026</span>
+  </div>
+
+</div><!-- /.page -->
+</body>
+</html>

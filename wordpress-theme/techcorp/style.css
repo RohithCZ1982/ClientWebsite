@@ -1,0 +1,14 @@
+/*
+Theme Name:  TechCorp Corporate
+Theme URI:   https://atreyasofttech.com
+Author:      Atreya SoftTech
+Author URI:  https://atreyasofttech.com
+Description: A professional corporate WordPress theme for technology companies. Includes custom post types for Services, Team, Jobs, Downloads, and Testimonials. Integrates with WooCommerce (Razorpay), Contact Form 7, and Yoast SEO.
+Version:     1.0.0
+License:     GNU General Public License v2 or later
+Text Domain: techcorp
+Tags:        corporate, business, custom-post-types, bootstrap-5, responsive
+*/
+
+/* ── IMPORT GOOGLE FONTS ─────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
