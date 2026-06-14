@@ -95,15 +95,6 @@
   .cost-card .amount { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
   .cost-card .label  { font-size: 11px; opacity: .8; font-weight: 600; }
 
-  /* ── Comparison ── */
-  .compare-table thead th { background: #1e293b; }
-  .compare-table .wp { background: rgba(34,197,94,.08); }
-  .compare-table .flask { background: rgba(239,68,68,.06); }
-  .compare-table td.wp   { color: #166534; font-weight: 600; }
-  .compare-table td.flask { color: #991b1b; }
-  .badge-green { background: #dcfce7; color: #166534; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 50px; }
-  .badge-red   { background: #fee2e2; color: #991b1b; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 50px; }
-
   /* ── Payment schedule ── */
   .milestone-row { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid #e2e8f0; }
   .milestone-row:last-child { border-bottom: none; }
@@ -131,12 +122,6 @@
   .doc-footer { background: #0f172a; color: rgba(255,255,255,.45); font-size: 11px;
     padding: 14px 56px; display: flex; justify-content: space-between; }
   .doc-footer a { color: rgba(255,255,255,.5); text-decoration: none; }
-
-  /* ── Savings highlight ── */
-  .savings-box { background: linear-gradient(135deg, rgba(34,197,94,.08), rgba(5,150,105,.06));
-    border: 2px solid rgba(34,197,94,.3); border-radius: 12px; padding: 20px 24px; margin: 20px 0; }
-  .savings-box h4 { color: #065f46; font-size: 14px; font-weight: 800; margin-bottom: 6px; }
-  .savings-box p  { font-size: 13px; color: #047857; margin: 0; }
 
   /* ── Print ── */
   @media print {
@@ -196,20 +181,6 @@
       lock-in (no Elementor, Divi, or WPBakery). The result is a fast, SEO-optimised, easily
       maintainable website that the client team can update without developer involvement.
     </p>
-    <p>
-      Compared to a custom Python/Flask application, WordPress significantly reduces both
-      upfront development cost and ongoing server infrastructure cost, while delivering
-      equivalent functionality through purpose-built plugins and a robust admin panel.
-    </p>
-
-    <div class="savings-box">
-      <h4>💰 Estimated Savings vs Custom Flask Application</h4>
-      <p>
-        <strong>Year 1 savings: ≈ ₹1,88,632</strong> &nbsp;|&nbsp;
-        WordPress Year 1 total: <strong>₹65,434</strong> &nbsp;vs&nbsp; Flask: <strong>₹2,54,066</strong>
-      </p>
-    </div>
-
     <div class="info-box blue">
       <h4>📦 Delivery Platform</h4>
       <p>WordPress 6.x · Custom Bootstrap 5 PHP theme (no page builder) · Hostinger Business Shared
@@ -366,12 +337,6 @@
       </tfoot>
     </table>
 
-    <div class="info-box green">
-      <h4>✅ Why Lower Cost Than Flask?</h4>
-      <p>WordPress provides built-in CMS, user management, REST API, and AJAX infrastructure, reducing
-         custom code by ~35 hours. The savings vs the Flask proposal
-         (₹2,00,718 incl. GST) total approximately <strong>₹1,39,830</strong> on development alone.</p>
-    </div>
   </section>
 
   <!-- ════════════════ RECURRING COSTS ════════════════ -->
@@ -578,74 +543,6 @@
         <tr class="tfoot-total"><td colspan="2"><strong>Year 2+ Total (incl. est. TDR)</strong></td><td><strong>₹14,546</strong></td></tr>
       </tfoot>
     </table>
-  </section>
-
-  <!-- ════════════════ COMPARISON ════════════════ -->
-  <section>
-    <div class="section-label">Platform Comparison</div>
-    <h2>WordPress <span>vs</span> Flask (Python)</h2>
-    <hr class="divider" />
-
-    <table class="compare-table">
-      <thead><tr><th>Factor</th><th>WordPress (This Proposal)</th><th>Custom Flask (Python)</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>Development Cost</strong></td>
-          <td class="wp">₹60,888 incl. GST<br><span class="badge-green">86 hrs @ ₹600/hr</span></td>
-          <td class="flask">₹2,00,718 incl. GST<br><span class="badge-red">130 hrs @ ₹1,300/hr</span></td>
-        </tr>
-        <tr>
-          <td><strong>Hosting</strong></td>
-          <td class="wp">₹2,748/yr (Shared)<br><span class="badge-green">5× cheaper</span></td>
-          <td class="flask">₹13,188/yr (VPS)<br><span class="badge-red">VPS required</span></td>
-        </tr>
-        <tr>
-          <td><strong>Server Management</strong></td>
-          <td class="wp">None — managed hosting<br><span class="badge-green">1-click WP install</span></td>
-          <td class="flask">Manual Nginx/Gunicorn/systemd<br><span class="badge-red">DevOps knowledge needed</span></td>
-        </tr>
-        <tr>
-          <td><strong>Plugin Costs</strong></td>
-          <td class="wp">₹0/yr (LiteSpeed Cache = FREE)<br><span class="badge-green">No plugin cost</span></td>
-          <td class="flask">₹0 (all custom code)</td>
-        </tr>
-        <tr>
-          <td><strong>CMS / Content Editing</strong></td>
-          <td class="wp">Native WP Admin<br><span class="badge-green">No-code editing</span></td>
-          <td class="flask">Custom Flask Admin<br><span class="badge-red">Limited UX</span></td>
-        </tr>
-        <tr>
-          <td><strong>SEO</strong></td>
-          <td class="wp">Yoast SEO (plugin)<br><span class="badge-green">GUI-based</span></td>
-          <td class="flask">Manual sitemap.xml + meta tags</td>
-        </tr>
-        <tr>
-          <td><strong>Year 1 Total</strong></td>
-          <td class="wp"><strong>₹65,434</strong><br><span class="badge-green">Savings: ₹1,88,632</span></td>
-          <td class="flask"><strong>₹2,54,066</strong></td>
-        </tr>
-        <tr>
-          <td><strong>Year 2+ Recurring</strong></td>
-          <td class="wp"><strong>₹14,546/yr</strong><br><span class="badge-green">Savings: ₹38,802/yr</span></td>
-          <td class="flask"><strong>₹53,348/yr</strong></td>
-        </tr>
-        <tr>
-          <td><strong>Scalability</strong></td>
-          <td class="wp">Plugin-based (WooCommerce, WPML, etc.)</td>
-          <td class="flask">Unlimited custom code; horizontal scale</td>
-        </tr>
-        <tr>
-          <td><strong>Best For</strong></td>
-          <td class="wp">Corporate brochure + blog + payment</td>
-          <td class="flask">Complex custom logic, high-volume APIs</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="savings-box">
-      <h4>💰 5-Year Estimated Savings with WordPress: ≈ ₹3,43,840</h4>
-      <p>Year 1 savings: ₹1,88,632 · Years 2–5 savings: ₹38,802 × 4 = ₹1,55,208 · Total: ₹3,43,840</p>
-    </div>
   </section>
 
   <!-- ════════════════ TIMELINE ════════════════ -->
