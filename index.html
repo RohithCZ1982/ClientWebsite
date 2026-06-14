@@ -45,6 +45,16 @@
   }
   .wp-badge .wp-icon { font-size: 32px; margin-bottom: 4px; }
   .wp-badge .wp-lbl { font-size: 11px; color: rgba(255,255,255,.5); }
+  @media (max-width: 600px) {
+    .wp-badge {
+      position: static;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 14px; margin-bottom: 20px;
+      border-radius: 50px;
+    }
+    .wp-badge .wp-icon { font-size: 20px; margin-bottom: 0; }
+    .wp-badge .wp-lbl { font-size: 12px; }
+  }
 
   /* ── Typography helpers ── */
   h2 { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px; }
