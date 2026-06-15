@@ -5,7 +5,7 @@
 $jobs = get_posts(['post_type'=>'tc_job','numberposts'=>-1,'meta_query'=>[['key'=>'_tc_job_active','value'=>'1']],'orderby'=>'menu_order','order'=>'ASC']);
 
 // Build department color map
-$dept_colors = ['Engineering'=>'#3b82f6','Security'=>'#f59e0b','Operations'=>'#10b981','General'=>'#8b5cf6'];
+$dept_colors = ['Engineering'=>'#c0392b','Security'=>'#d97706','Operations'=>'#059669','General'=>'#7c3aed'];
 $dept_icons  = ['Engineering'=>'bi-cpu','Security'=>'bi-shield-lock','Operations'=>'bi-diagram-3','General'=>'bi-grid'];
 
 // Collect all departments from actual jobs
@@ -65,7 +65,7 @@ foreach($jobs as $j) {
           return $depts && $depts[0]->name === $d;
         }));
         $icon = $dept_icons[$d] ?? 'bi-folder';
-        $color = $dept_colors[$d] ?? '#6366f1';
+        $color = $dept_colors[$d] ?? '#7c3aed';
       ?>
       <button class="job-filter-btn" data-dept="<?php echo esc_attr($d); ?>"
               style="--dept-color: <?php echo $color; ?>">
@@ -84,7 +84,7 @@ foreach($jobs as $j) {
         $experience = get_post_meta($j->ID,'_tc_job_experience',true);
         $depts      = get_the_terms($j->ID,'job_department');
         $dept       = $depts ? $depts[0]->name : 'General';
-        $color      = $dept_colors[$dept] ?? '#6366f1';
+        $color      = $dept_colors[$dept] ?? '#7c3aed';
         $icon       = $dept_icons[$dept] ?? 'bi-folder';
         $excerpt    = get_the_excerpt($j->ID);
       ?>
@@ -141,7 +141,7 @@ foreach($jobs as $j) {
     </div>
     <div class="row g-4">
       <?php foreach([
-        ['bi-mortarboard','Continuous Learning','Annual ₹3,000 learning budget, certifications fully covered.','#3b82f6'],
+        ['bi-mortarboard','Continuous Learning','Annual ₹3,000 learning budget, certifications fully covered.','#c0392b'],
         ['bi-cash-stack','Competitive Pay','Market-leading salaries with performance bonuses.','#10b981'],
         ['bi-globe','Global Exposure','Work with clients across 30+ countries worldwide.','#f59e0b'],
         ['bi-heart-pulse','Health & Wellness','Comprehensive medical, dental, and vision benefits.','#ef4444'],

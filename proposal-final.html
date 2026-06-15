@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WordPress Website Development Proposal — Atreya SoftTech</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1e293b; background: #f1f5f9; line-height: 1.7; }
+
+  .page { width: 860px; max-width: 100%; margin: 32px auto; background: #fff; box-shadow: 0 4px 32px rgba(0,0,0,.1); }
+  section { padding: 48px 56px; }
+  section + section { border-top: 1px solid #e2e8f0; }
+
+  /* Cover */
+  .cover {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0d2444 100%);
+    color: #fff; padding: 64px 56px; position: relative; overflow: hidden;
+  }
+  .cover::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(13,110,253,.3) 0%, transparent 65%);
+  }
+  .cover > * { position: relative; z-index: 1; }
+  .cover-badge {
+    display: inline-block; background: rgba(13,110,253,.25); border: 1px solid rgba(13,110,253,.5);
+    color: #93c5fd; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 50px; margin-bottom: 28px;
+  }
+  .cover h1 { font-size: 36px; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+  .cover h1 span { color: #60a5fa; }
+  .cover .sub { color: rgba(255,255,255,.65); font-size: 15px; margin-bottom: 36px; }
+  .cover-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cover-item { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 10px; padding: 14px 18px; }
+  .cover-item .label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.45); margin-bottom: 4px; }
+  .cover-item .value { font-size: 14px; font-weight: 600; color: #fff; }
+  .wp-badge {
+    position: absolute; top: 48px; right: 56px;
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+    border-radius: 12px; padding: 12px 18px; text-align: center;
+  }
+  .wp-badge .wp-icon { font-size: 32px; margin-bottom: 4px; }
+  .wp-badge .wp-lbl { font-size: 11px; color: rgba(255,255,255,.5); }
+
+  /* Typography */
+  h2 { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px; }
+  h2 span { color: #0d6efd; }
+  h3 { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 12px; }
+  p  { color: #475569; margin-bottom: 12px; }
+  .section-label {
+    display: inline-block; background: rgba(13,110,253,.08); color: #0d6efd;
+    font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 50px; border: 1px solid rgba(13,110,253,.18); margin-bottom: 16px;
+  }
+  .divider { border: none; border-top: 2px solid #0d6efd; width: 40px; margin: 8px 0 24px; }
+
+  /* Info boxes */
+  .info-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+  .info-box.blue  { background: rgba(13,110,253,.04); border-color: rgba(13,110,253,.2); }
+  .info-box.green { background: rgba(34,197,94,.04);  border-color: rgba(34,197,94,.25); }
+  .info-box.amber { background: rgba(245,158,11,.04); border-color: rgba(245,158,11,.25); }
+  .info-box.orange{ background: rgba(234,88,12,.05);  border-color: rgba(234,88,12,.25); }
+  .info-box h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .info-box p  { font-size: 13px; margin: 0; }
+
+  /* Feature grid */
+  .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .feature-item { display: flex; gap: 10px; align-items: flex-start; background: #f8fafc; border-radius: 8px; padding: 12px 14px; }
+  .feature-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .feature-item h5 { font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
+  .feature-item p  { font-size: 11px; color: #64748b; margin: 0; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px; }
+  thead th { background: #0f172a; color: #fff; padding: 10px 14px; font-weight: 600; font-size: 12px; text-align: left; }
+  thead th:last-child, td:last-child { text-align: right; }
+  tbody tr:nth-child(even) { background: #f8fafc; }
+  tbody td { padding: 9px 14px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tfoot td { padding: 10px 14px; font-weight: 700; font-size: 13px; }
+  .tfoot-sub   { background: #f1f5f9; color: #475569; }
+  .tfoot-total { background: #0d6efd; color: #fff; }
+  .tfoot-gst   { background: #1e3a5f; color: #fff; }
+  .tfoot-free  { background: #f0fdf4; color: #166534; }
+  .badge-free  { display:inline-block; background:#dcfce7; color:#166534; font-size:10px; font-weight:700; padding:2px 8px; border-radius:50px; border:1px solid #bbf7d0; }
+  .badge-rec   { display:inline-block; background:#dbeafe; color:#1d4ed8; font-size:10px; font-weight:700; padding:2px 8px; border-radius:50px; border:1px solid #bfdbfe; }
+
+  /* Cost summary */
+  .cost-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 24px 0; }
+  .cost-card { border-radius: 10px; padding: 20px; text-align: center; }
+  .cost-card.y1 { background: linear-gradient(135deg, #0d6efd, #3b82f6); color: #fff; }
+  .cost-card.mo { background: linear-gradient(135deg, #059669, #10b981); color: #fff; }
+  .cost-card.y2 { background: linear-gradient(135deg, #7c3aed, #a78bfa); color: #fff; }
+  .cost-card .amount { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
+  .cost-card .label  { font-size: 11px; opacity: .8; font-weight: 600; }
+
+  /* Razorpay estimate boxes */
+  .rzp-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0 24px; }
+  .rzp-box { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 10px; padding: 16px; text-align: center; }
+  .rzp-box .rzp-gmv { font-size: 11px; color: #9a3412; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+  .rzp-box .rzp-fee { font-size: 22px; font-weight: 800; color: #c2410c; margin-bottom: 2px; }
+  .rzp-box .rzp-note{ font-size: 10px; color: #7c2d12; }
+
+  /* Payment milestones */
+  .milestone-row { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid #e2e8f0; }
+  .milestone-row:last-child { border-bottom: none; }
+  .milestone-num { width: 36px; height: 36px; border-radius: 50%; background: #0d6efd; color: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+  .milestone-body { flex: 1; }
+  .milestone-body h5 { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .milestone-body p  { font-size: 12px; color: #64748b; margin: 0; }
+  .milestone-amount  { font-size: 16px; font-weight: 800; color: #0d6efd; white-space: nowrap; }
+
+  /* T&C */
+  .tc-list { list-style: none; padding: 0; }
+  .tc-list li { padding: 7px 0 7px 22px; position: relative; font-size: 12px; color: #475569; border-bottom: 1px solid #f1f5f9; }
+  .tc-list li:last-child { border-bottom: none; }
+  .tc-list li::before { content: '§'; position: absolute; left: 0; color: #0d6efd; font-weight: 700; }
+
+  /* Signature */
+  .sig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 32px; }
+  .sig-block .sig-line { border-top: 1px solid #0f172a; margin-top: 48px; padding-top: 8px; }
+  .sig-block .sig-name { font-weight: 700; font-size: 13px; }
+  .sig-block .sig-role { font-size: 12px; color: #64748b; }
+
+  /* Footer bar */
+  .doc-footer { background: #0f172a; color: rgba(255,255,255,.45); font-size: 11px; padding: 14px 56px; display: flex; justify-content: space-between; }
+
+  /* ── Print / PDF ── */
+  @media print {
+    /* Force all backgrounds and colors to print */
+    *, *::before, *::after {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    @page { size: A4 portrait; margin: 14mm 0; }
+
+    body {
+      background: #e8edf2;
+      margin: 0;
+      padding: 8px 0;
+      font-size: 12.5px;
+    }
+
+    .page {
+      box-shadow: none;
+      margin: 0 auto;
+      width: 760px;
+      max-width: 760px;
+    }
+
+    section { padding: 32px 44px; }
+
+    /* Cover always starts fresh page */
+    .cover { page-break-after: always; }
+
+    /* Keep section label + h2 + divider together with first content block */
+    .section-label,
+    h2 { page-break-after: avoid; orphans: 4; widows: 4; }
+
+    /* Keep h3 glued to the element that follows (its table) */
+    h3 { page-break-after: avoid; orphans: 3; widows: 3; }
+
+    /* Table page-break rules */
+    table  { page-break-inside: auto; }
+    tr     { page-break-inside: avoid; page-break-after: auto; }
+
+    /* CRITICAL: prevent tfoot from repeating on every page —
+       change it from table-footer-group to a regular row group */
+    thead  { display: table-header-group; }   /* headers repeat — OK */
+    tfoot  { display: table-row-group; }       /* total appears ONLY at end */
+
+    /* Keep small blocks together */
+    .milestone-row  { page-break-inside: avoid; }
+    .info-box       { page-break-inside: avoid; }
+    .cost-summary   { page-break-inside: avoid; }
+    .rzp-grid       { page-break-inside: avoid; }
+    .feature-grid   { page-break-inside: auto;  }
+    .feature-item   { page-break-inside: avoid; }
+
+    /* Keep h3 + its immediately following table on same page if short */
+    .sub-section    { page-break-inside: avoid; }
+
+    /* Doc footer */
+    .doc-footer { page-break-inside: avoid; }
+
+    /* Force sections to always start on a new page */
+    .new-page { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- COVER -->
+  <div class="cover">
+    <div class="wp-badge">
+      <div class="wp-icon">🔷</div>
+      <div class="wp-lbl">WordPress</div>
+    </div>
+    <div class="cover-badge">Website Development Proposal</div>
+    <h1>Corporate Website in<br><span>WordPress</span></h1>
+    <p class="sub">Prepared exclusively for the client by Atreya SoftTech Pvt. Ltd.</p>
+    <div class="cover-grid">
+      <div class="cover-item"><div class="label">Proposal Reference</div><div class="value">AST-WP-2026-0614</div></div>
+      <div class="cover-item"><div class="label">Date Issued</div><div class="value">14 June 2026</div></div>
+      <div class="cover-item"><div class="label">Valid Until</div><div class="value">14 July 2026</div></div>
+      <div class="cover-item"><div class="label">Technology Stack</div><div class="value">WordPress + Bootstrap 5</div></div>
+      <div class="cover-item"><div class="label">Submitted By</div><div class="value">Atreya SoftTech Pvt. Ltd.</div></div>
+      <div class="cover-item"><div class="label">Address</div><div class="value">Mysore, Karnataka, India</div></div>
+    </div>
+  </div>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <section>
+    <div class="section-label">Executive Summary</div>
+    <h2>Why Choose <span>WordPress</span>?</h2>
+    <hr class="divider" />
+    <p>This proposal covers the design, development, and deployment of a complete corporate website on <strong>WordPress CMS</strong> with a fully custom Bootstrap 5 theme — no page-builder lock-in. The result is a fast, SEO-optimised, easily maintainable website that the client team can update without developer involvement.</p>
+    <div class="info-box blue">
+      <h4>📦 Delivery Platform</h4>
+      <p>WordPress 6.x · Custom Bootstrap 5 PHP theme (no page builder) · Hostinger Business Shared Hosting (auto-SSL, LiteSpeed cache) · Razorpay payment gateway.</p>
+    </div>
+  </section>
+
+  <!-- SCOPE OF WORK -->
+  <section>
+    <div class="section-label">Scope of Work</div>
+    <h2>What's <span>Included</span></h2>
+    <hr class="divider" />
+    <div class="feature-grid">
+      <div class="feature-item"><span class="feature-icon">🏠</span><div><h5>11 Pages</h5><p>Home, About, Services (grid + detail), Team, Careers, Blog, Contact, Downloads, Pricing, Signup</p></div></div>
+      <div class="feature-item"><span class="feature-icon">🎨</span><div><h5>Custom WordPress Theme</h5><p>Bootstrap 5 responsive theme; no Elementor; fully branded corporate design</p></div></div>
+      <div class="feature-item"><span class="feature-icon">📂</span><div><h5>5 Custom Post Types</h5><p>Services, Team, Jobs (Careers), Downloads, Testimonials — managed from WP Admin</p></div></div>
+      <div class="feature-item"><span class="feature-icon">💳</span><div><h5>Razorpay Payment Gateway</h5><p>3 pricing plans, order creation, signature verification, webhook, success/fail pages</p></div></div>
+      <div class="feature-item"><span class="feature-icon">📝</span><div><h5>Blog / CMS</h5><p>Native WordPress blog with categories, tags, featured images, author profiles</p></div></div>
+      <div class="feature-item"><span class="feature-icon">📧</span><div><h5>Contact &amp; Newsletter</h5><p>AJAX contact form, job applications, newsletter subscriber list in WP Admin</p></div></div>
+      <div class="feature-item"><span class="feature-icon">🔍</span><div><h5>SEO Ready</h5><p>Yoast SEO plugin, XML sitemap, Open Graph, schema markup, Lighthouse &gt;90</p></div></div>
+      <div class="feature-item"><span class="feature-icon">🔒</span><div><h5>Security</h5><p>Wordfence, login protection, nonce verification, input sanitisation</p></div></div>
+      <div class="feature-item"><span class="feature-icon">⚡</span><div><h5>Performance</h5><p>LiteSpeed cache, image compression, lazy loading, CDN-ready, Core Web Vitals optimised</p></div></div>
+      <div class="feature-item"><span class="feature-icon">🌐</span><div><h5>Google Integrations</h5><p>GA4 analytics, Google Maps embed (contact page), Search Console verification</p></div></div>
+      <div class="feature-item"><span class="feature-icon">🛠️</span><div><h5>Admin Settings Panel</h5><p>Custom WP Settings page for company info, Razorpay keys, GA4 ID, Maps API key</p></div></div>
+      <div class="feature-item"><span class="feature-icon">📱</span><div><h5>Fully Responsive Design</h5><p>Mobile, tablet &amp; desktop — tested on iOS, Android, Chrome, Firefox, Safari &amp; Edge</p></div></div>
+    </div>
+    <div class="info-box green">
+      <h4>📱 Mobile · Tablet · Desktop — All Included at No Extra Cost</h4>
+      <p>Built with Bootstrap 5's responsive grid and tested across all major screen sizes. No separate mobile version required — one codebase adapts automatically.</p>
+    </div>
+    <div class="info-box amber">
+      <h4>⚠️ Not Included in This Proposal</h4>
+      <p>E-commerce (WooCommerce), native mobile apps, CRM integration, multilingual setup. These can be quoted separately.</p>
+    </div>
+  </section>
+
+  <!-- DEVELOPMENT COST -->
+  <section>
+    <div class="section-label">One-Time Development Cost</div>
+    <h2>Development <span>Estimate</span></h2>
+    <hr class="divider" />
+    <p>All development work is performed by Atreya SoftTech in-house (inclusive of design, development, QA, and deployment).</p>
+    <table>
+      <thead><tr><th>Module</th><th>Description</th><th>Hours</th><th>Cost (₹)</th></tr></thead>
+      <tbody>
+        <tr><td>WordPress Theme Setup</td><td>Custom Bootstrap 5 theme, header/footer, nav, responsive</td><td>8</td><td>₹4,800</td></tr>
+        <tr><td>Custom Post Types &amp; Taxonomies</td><td>Services, Team, Jobs, Downloads, Testimonials + meta boxes</td><td>6</td><td>₹3,600</td></tr>
+        <tr><td>Home Page</td><td>Hero, stats, services grid, testimonials, blog preview, CTA</td><td>5</td><td>₹3,000</td></tr>
+        <tr><td>About Page</td><td>Story, stats, mission/vision/values, team preview, certifications</td><td>3</td><td>₹1,800</td></tr>
+        <tr><td>Services (List + Detail)</td><td>Archive grid with filters, single service detail pages</td><td>4</td><td>₹2,400</td></tr>
+        <tr><td>Team Page</td><td>Full team grid from CPT with social links, culture section</td><td>3</td><td>₹1,800</td></tr>
+        <tr><td>Careers / Jobs Page</td><td>Job listings, AJAX apply modal, application management</td><td>4</td><td>₹2,400</td></tr>
+        <tr><td>Blog (List + Single)</td><td>Paginated archive, category filters, single post with related</td><td>4</td><td>₹2,400</td></tr>
+        <tr><td>Contact Page</td><td>AJAX contact form, Google Maps embed, enquiry management</td><td>3</td><td>₹1,800</td></tr>
+        <tr><td>Downloads Page</td><td>File download management, category filters, download counter</td><td>3</td><td>₹1,800</td></tr>
+        <tr><td>Pricing / Payment Page</td><td>3 plan cards, FAQ accordion, Razorpay integration</td><td>5</td><td>₹3,000</td></tr>
+        <tr><td>Razorpay Integration</td><td>Order creation, payment verification, webhook, demo mode</td><td>6</td><td>₹3,600</td></tr>
+        <tr><td>AJAX Handlers</td><td>Contact, newsletter, job apply, Razorpay via WP AJAX API</td><td>4</td><td>₹2,400</td></tr>
+        <tr><td>Admin Settings Page</td><td>Company info, Razorpay keys, GA4, Maps API, newsletter list</td><td>3</td><td>₹1,800</td></tr>
+        <tr><td>CSS / JavaScript</td><td>Custom theme.css (animations, cards, pricing) + theme.js</td><td>5</td><td>₹3,000</td></tr>
+        <tr><td>Newsletter</td><td>Footer subscription, WP Admin subscriber export</td><td>2</td><td>₹1,200</td></tr>
+        <tr><td>Demo Data Import</td><td>Auto-seed services, team, jobs, blog on theme activation</td><td>2</td><td>₹1,200</td></tr>
+        <tr><td>SEO Setup</td><td>Yoast SEO config, XML sitemap, Open Graph, schema</td><td>3</td><td>₹1,800</td></tr>
+        <tr><td>Security Hardening</td><td>Wordfence, login protection, headers, nonce checks</td><td>2</td><td>₹1,200</td></tr>
+        <tr><td>Performance Optimisation</td><td>LiteSpeed cache, image optimisation, Core Web Vitals</td><td>2</td><td>₹1,200</td></tr>
+        <tr><td>QA &amp; Browser Testing</td><td>Cross-browser, mobile responsiveness, accessibility audit</td><td>4</td><td>₹2,400</td></tr>
+        <tr><td>Hosting Setup &amp; Deployment</td><td>Hostinger setup, SSL, DNS, backups, cron, live launch</td><td>3</td><td>₹1,800</td></tr>
+        <tr><td>Client Training &amp; Handover</td><td>WP Admin training session, documentation handover</td><td>2</td><td>₹1,200</td></tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot-sub"><td colspan="3"><strong>Development Fee (before GST)</strong></td><td><strong>₹45,000</strong></td></tr>
+        <tr class="tfoot-gst"><td colspan="3"><strong>GST @ 18%</strong></td><td><strong>₹8,100</strong></td></tr>
+        <tr class="tfoot-total"><td colspan="3"><strong>TOTAL DEVELOPMENT COST</strong></td><td><strong>₹53,100</strong></td></tr>
+      </tfoot>
+    </table>
+  </section>
+
+  <!-- RECURRING COSTS -->
+  <section class="new-page">
+    <div class="section-label">Third-Party Recurring Costs</div>
+    <h2>Annual <span>Expenses</span></h2>
+    <hr class="divider" />
+    <p>These are direct costs payable to third-party providers. Atreya SoftTech does not mark up these costs — invoices/subscriptions are in the client's name.</p>
+
+    <div class="sub-section">
+      <h3>A. Domain Name Registration</h3>
+      <table>
+        <thead><tr><th>Item</th><th>Provider</th><th>Year 1</th><th>Year 2+</th></tr></thead>
+        <tbody>
+          <tr><td>.com domain (e.g., yourcompany.com)</td><td>GoDaddy / Hostinger</td><td>₹999</td><td>₹999/yr</td></tr>
+          <tr><td>WHOIS Privacy Protection</td><td>Same registrar</td><td>₹299</td><td>₹299/yr</td></tr>
+        </tbody>
+        <tfoot><tr class="tfoot-sub"><td colspan="2"><strong>Domain Total</strong></td><td><strong>₹1,298</strong></td><td><strong>₹1,298/yr</strong></td></tr></tfoot>
+      </table>
+    </div>
+
+    <div class="sub-section">
+      <h3>B. Web Hosting <span style="font-size:12px;color:#64748b;font-weight:400">— Hostinger Business Shared <span class="badge-rec">Recommended</span></span></h3>
+      <table>
+        <thead><tr><th>Plan</th><th>Specs</th><th>Monthly</th><th>Annual</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Hostinger Business</strong></td><td>100 GB NVMe SSD · LiteSpeed · Free SSL · Daily backups · Free domain · Built-in CDN</td><td>₹229/mo</td><td>₹2,748</td></tr>
+        </tbody>
+        <tfoot><tr class="tfoot-sub"><td colspan="2"><strong>Recommended Plan</strong></td><td><strong>₹229/mo</strong></td><td><strong>₹2,748/yr</strong></td></tr></tfoot>
+      </table>
+    </div>
+
+    <div class="sub-section">
+      <h3>C. SSL Certificate</h3>
+      <table>
+        <thead><tr><th>Option</th><th>Type</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr><td>Let's Encrypt (via Hostinger AutoSSL) <span class="badge-rec">Recommended · Included</span></td><td>Domain Validated, 90-day auto-renew</td><td><span class="badge-free">FREE</span></td></tr>
+        </tbody>
+        <tfoot><tr class="tfoot-free"><td colspan="2"><strong>Recommended (AutoSSL — included with Hostinger)</strong></td><td><strong>₹0 / yr</strong></td></tr></tfoot>
+      </table>
+    </div>
+
+    <div class="sub-section">
+      <h3>D. WordPress Plugins <span style="font-size:12px;color:#64748b;font-weight:400">— All recommended plugins are free</span></h3>
+      <table>
+        <thead><tr><th>Plugin</th><th>Purpose</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr><td>Yoast SEO Free <span class="badge-rec">Used</span></td><td>SEO meta tags, XML sitemap, Open Graph, breadcrumbs</td><td><span class="badge-free">FREE</span></td></tr>
+          <tr><td>Wordfence Security Free <span class="badge-rec">Used</span></td><td>Firewall, malware scan, login security, IP blocking</td><td><span class="badge-free">FREE</span></td></tr>
+          <tr><td>LiteSpeed Cache <span class="badge-rec">Used</span></td><td>Full-featured caching on Hostinger LiteSpeed servers</td><td><span class="badge-free">FREE</span></td></tr>
+          <tr><td>UpdraftPlus Free <span class="badge-rec">Used</span></td><td>Weekly off-site backups to Google Drive</td><td><span class="badge-free">FREE</span></td></tr>
+          <tr><td>Razorpay for WordPress <span class="badge-rec">Used</span></td><td>Payment gateway AJAX integration plugin</td><td><span class="badge-free">FREE</span></td></tr>
+          <tr><td>Smush Image Compression <span class="badge-rec">Used</span></td><td>Automatic image compression and WebP conversion</td><td><span class="badge-free">FREE</span></td></tr>
+        </tbody>
+        <tfoot><tr class="tfoot-free"><td colspan="2"><strong>All used plugins — Recommended free bundle</strong></td><td><strong>₹0 / yr</strong></td></tr></tfoot>
+      </table>
+    </div>
+
+    <div class="sub-section">
+      <h3>E. CDN &amp; Backups &amp; Google Services</h3>
+      <table>
+        <thead><tr><th>Service</th><th>Details</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr><td>Hostinger Built-in CDN <span class="badge-rec">Included</span></td><td>150+ global PoPs, included with Hostinger Business</td><td><span class="badge-free">FREE</span></td></tr>
+          <tr><td>Cloudflare Free <span class="badge-rec">Used</span></td><td>Global CDN layer, DDoS protection, analytics</td><td><span class="badge-free">FREE</span></td></tr>
+          <tr><td>Hostinger Auto Backup <span class="badge-rec">Included</span></td><td>Daily backups, 30-day retention — built into hosting</td><td><span class="badge-free">FREE</span></td></tr>
+          <tr><td>UpdraftPlus Free → Google Drive <span class="badge-rec">Used</span></td><td>Weekly off-site backups to Google Drive</td><td><span class="badge-free">FREE</span></td></tr>
+          <tr><td>Google Analytics 4 <span class="badge-rec">Used</span></td><td>Traffic, behaviour &amp; conversion tracking</td><td><span class="badge-free">FREE</span></td></tr>
+          <tr><td>Google Search Console <span class="badge-rec">Used</span></td><td>SEO performance, crawl errors, keyword data</td><td><span class="badge-free">FREE</span></td></tr>
+          <tr><td>Google Maps Embed API <span class="badge-rec">Used</span></td><td>Contact page map embed (up to 28,000 loads/month free)</td><td><span class="badge-free">FREE</span></td></tr>
+        </tbody>
+        <tfoot><tr class="tfoot-free"><td colspan="2"><strong>CDN + Backups + Google — all within free tier</strong></td><td><strong>₹0 / yr</strong></td></tr></tfoot>
+      </table>
+    </div>
+  </section>
+
+  <!-- RAZORPAY SECTION (SEPARATE) -->
+  <section class="new-page">
+    <div class="section-label">Payment Gateway</div>
+    <h2>Razorpay <span>Transaction Fees</span></h2>
+    <hr class="divider" />
+    <p>Razorpay is integrated as the payment gateway for subscription/plan payments. There are <strong>no setup fees</strong> — costs are purely transaction-based, charged per payment collected. These are variable and paid directly to Razorpay.</p>
+
+    <div class="info-box orange">
+      <h4>ℹ️ How Razorpay Charges Work</h4>
+      <p>Razorpay deducts its Transaction Discount Rate (TDR) automatically from each payment before transferring the balance to your bank account. You do not receive a separate invoice — the fee is deducted at source.</p>
+    </div>
+
+    <table>
+      <thead><tr><th>Payment Method</th><th>TDR Rate</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Account Setup</td><td>—</td><td><span class="badge-free">FREE</span> — No setup fee for standard accounts</td></tr>
+        <tr><td>Domestic Cards (Debit / Credit)</td><td>2% per transaction</td><td>Standard rate for Visa, Mastercard, RuPay</td></tr>
+        <tr><td>UPI / BHIM</td><td>0% (currently)</td><td>Razorpay currently charges 0% on UPI transactions</td></tr>
+        <tr><td>Net Banking</td><td>2% per transaction</td><td>All major Indian banks supported</td></tr>
+        <tr><td>Wallets (Paytm, PhonePe, etc.)</td><td>2% per transaction</td><td>Subject to wallet provider terms</td></tr>
+        <tr><td>International Cards</td><td>3% + GST</td><td>Requires prior Razorpay approval</td></tr>
+        <tr><td>EMI (Credit Card)</td><td>3% per transaction</td><td>Bank EMI; no-cost EMI may vary</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Approximate Annual Cost by Payment Volume</h3>
+    <p style="font-size:12px;color:#64748b;margin-bottom:12px">Based on 2% avg TDR (assuming primarily card + netbanking payments). UPI transactions reduce actual cost significantly.</p>
+    <div class="rzp-grid">
+      <div class="rzp-box">
+        <div class="rzp-gmv">GMV ₹1 Lakh/yr</div>
+        <div class="rzp-fee">~₹2,000</div>
+        <div class="rzp-note">Starter / Low volume</div>
+      </div>
+      <div class="rzp-box">
+        <div class="rzp-gmv">GMV ₹5 Lakh/yr</div>
+        <div class="rzp-fee">~₹10,000</div>
+        <div class="rzp-note">Moderate volume</div>
+      </div>
+      <div class="rzp-box">
+        <div class="rzp-gmv">GMV ₹10 Lakh/yr</div>
+        <div class="rzp-fee">~₹20,000</div>
+        <div class="rzp-note">Growing business</div>
+      </div>
+    </div>
+
+    <div class="info-box amber">
+      <h4>⚠️ Important Note</h4>
+      <p>Razorpay fees are entirely variable — based on your actual transaction volume and payment methods used. The above are estimates only. If a significant portion of payments are via UPI, your effective TDR could be near <strong>₹0</strong>. Atreya SoftTech has no control over or liability for these charges.</p>
+    </div>
+  </section>
+
+  <!-- COST SUMMARY -->
+  <section class="new-page">
+    <div class="section-label">Financial Summary</div>
+    <h2>Total Cost <span>Breakdown</span></h2>
+    <hr class="divider" />
+
+    <div class="cost-summary">
+      <div class="cost-card y1">
+        <div class="amount">₹57,146</div>
+        <div class="label">Year 1 Total (incl. GST)</div>
+      </div>
+      <div class="cost-card mo">
+        <div class="amount">₹4,762</div>
+        <div class="label">Avg Monthly (Year 1)</div>
+      </div>
+      <div class="cost-card y2">
+        <div class="amount">₹4,046</div>
+        <div class="label">Year 2+ Recurring / yr</div>
+      </div>
+    </div>
+
+    <div class="sub-section">
+    <h3>Year 1 — Complete Cost Table</h3>
+    <table>
+      <thead><tr><th>Category</th><th>Item</th><th>Annual Cost</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="2"><strong>A. Development</strong></td><td>Development fee (before GST)</td><td>₹45,000</td></tr>
+        <tr><td>GST on Development (18%)</td><td>₹8,100</td></tr>
+        <tr><td><strong>B. Domain</strong></td><td>.com + WHOIS Privacy</td><td>₹1,298</td></tr>
+        <tr><td><strong>C. Hosting</strong></td><td>Hostinger Business Shared (12 months)</td><td>₹2,748</td></tr>
+        <tr><td><strong>D. SSL</strong></td><td>Let's Encrypt AutoSSL (included with Hostinger)</td><td>FREE</td></tr>
+        <tr><td><strong>E. Plugins</strong></td><td>Yoast SEO + Wordfence + LiteSpeed Cache + UpdraftPlus + Razorpay + Smush</td><td>FREE</td></tr>
+        <tr><td><strong>F. CDN</strong></td><td>Hostinger CDN + Cloudflare Free (included)</td><td>FREE</td></tr>
+        <tr><td><strong>G. Backups</strong></td><td>Hostinger Auto Backup + UpdraftPlus Free → Google Drive</td><td>FREE</td></tr>
+        <tr><td><strong>H. Google Services</strong></td><td>GA4, Search Console, Maps Embed (within free tier)</td><td>FREE</td></tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot-sub"><td colspan="2"><strong>Year 1 Total</strong></td><td><strong>₹57,146</strong></td></tr>
+        <tr class="tfoot-total"><td colspan="2"><strong>YEAR 1 GRAND TOTAL</strong></td><td><strong>₹57,146</strong></td></tr>
+      </tfoot>
+    </table>
+    </div><!-- /.sub-section -->
+    <p style="font-size:12px;color:#64748b">* Razorpay transaction fees are variable and listed separately above. They are not included in the Year 1 total as they depend on your actual payment volume.</p>
+
+    <div class="sub-section">
+    <h3>Year 2+ — Annual Recurring Costs</h3>
+    <table>
+      <thead><tr><th>Category</th><th>Item</th><th>Annual</th></tr></thead>
+      <tbody>
+        <tr><td>Domain</td><td>.com renewal + WHOIS Privacy</td><td>₹1,298</td></tr>
+        <tr><td>Hosting</td><td>Hostinger Business Shared renewal</td><td>₹2,748</td></tr>
+        <tr><td>All Plugins</td><td>Yoast SEO + Wordfence + LiteSpeed + UpdraftPlus + Razorpay plugin</td><td>FREE</td></tr>
+        <tr><td>SSL / CDN / Backups / Google</td><td>All included or free</td><td>FREE</td></tr>
+      </tbody>
+      <tfoot>
+        <tr class="tfoot-sub"><td colspan="2"><strong>Year 2+ Annual Recurring</strong></td><td><strong>₹4,046</strong></td></tr>
+        <tr class="tfoot-total"><td colspan="2"><strong>Year 2+ Total</strong></td><td><strong>₹4,046</strong></td></tr>
+      </tfoot>
+    </table>
+    </div><!-- /.sub-section -->
+    <p style="font-size:12px;color:#64748b">* Razorpay TDR applies ongoing based on actual payment volume — see Razorpay section above.</p>
+  </section>
+
+  <!-- TIMELINE -->
+  <section>
+    <div class="section-label">Project Timeline</div>
+    <h2>Delivery <span>Schedule</span></h2>
+    <hr class="divider" />
+    <table>
+      <thead><tr><th>Phase</th><th>Deliverables</th><th>Duration</th><th>Cumulative</th></tr></thead>
+      <tbody>
+        <tr><td>Phase 1 — Discovery &amp; Setup</td><td>Requirements sign-off, Hostinger setup, WP install, theme skeleton, brand review</td><td>3 days</td><td>Day 3</td></tr>
+        <tr><td>Phase 2 — Core Development</td><td>Custom theme, CPTs, all 11 pages, WP Admin settings, AJAX handlers</td><td>10 days</td><td>Day 13</td></tr>
+        <tr><td>Phase 3 — Integrations</td><td>Razorpay gateway, newsletter, contact forms, job applications, blog system</td><td>5 days</td><td>Day 18</td></tr>
+        <tr><td>Phase 4 — SEO &amp; Performance</td><td>Yoast SEO, sitemap, schema, LiteSpeed Cache, Core Web Vitals, GA4</td><td>3 days</td><td>Day 21</td></tr>
+        <tr><td>Phase 5 — QA &amp; UAT</td><td>Cross-browser testing, mobile QA, client review, revisions (up to 2 rounds)</td><td>4 days</td><td>Day 25</td></tr>
+        <tr><td>Phase 6 — Launch &amp; Handover</td><td>DNS cutover, live deployment, client training session, documentation</td><td>2 days</td><td>Day 27</td></tr>
+      </tbody>
+      <tfoot><tr class="tfoot-total"><td colspan="3"><strong>Total Project Duration</strong></td><td><strong>~4 Weeks</strong></td></tr></tfoot>
+    </table>
+  </section>
+
+  <!-- PAYMENT SCHEDULE -->
+  <section>
+    <div class="section-label">Payment Terms</div>
+    <h2>Payment <span>Schedule</span></h2>
+    <hr class="divider" />
+
+    <div class="milestone-row">
+      <div class="milestone-num">1</div>
+      <div class="milestone-body">
+        <h5>Milestone 1 — Project Kick-off (40%)</h5>
+        <p>Payable upon proposal acceptance and project start. Covers discovery, design, and core development phase.</p>
+      </div>
+      <div class="milestone-amount">₹21,240</div>
+    </div>
+    <div class="milestone-row">
+      <div class="milestone-num">2</div>
+      <div class="milestone-body">
+        <h5>Milestone 2 — Staging Delivery (40%)</h5>
+        <p>Payable when the complete website is deployed to the staging environment for client review.</p>
+      </div>
+      <div class="milestone-amount">₹21,240</div>
+    </div>
+    <div class="milestone-row">
+      <div class="milestone-num">3</div>
+      <div class="milestone-body">
+        <h5>Milestone 3 — Go-Live (20%)</h5>
+        <p>Final payment upon live deployment, client sign-off, and training session completion.</p>
+      </div>
+      <div class="milestone-amount">₹10,620</div>
+    </div>
+
+    <div class="info-box blue" style="margin-top:20px">
+      <h4>💳 Accepted Payment Methods</h4>
+      <p>NEFT / RTGS / IMPS · UPI · Cheque / DD payable to <em>Atreya SoftTech Pvt. Ltd.</em><br/>GST Invoice provided within 2 working days of payment receipt.</p>
+    </div>
+  </section>
+
+  <!-- CLIENT RESPONSIBILITIES -->
+  <section class="new-page">
+    <div class="section-label">Client Responsibilities</div>
+    <h2>What We Need <span>From You</span></h2>
+    <hr class="divider" />
+    <div class="feature-grid">
+      <div class="feature-item"><span class="feature-icon">🎨</span><div><h5>Brand Assets</h5><p>Logo (SVG/PNG), brand colours, fonts, brand guidelines if available</p></div></div>
+      <div class="feature-item"><span class="feature-icon">📝</span><div><h5>Content</h5><p>Company text, about story, team bios, service descriptions, blog posts (or approval for AI-generated placeholder content)</p></div></div>
+      <div class="feature-item"><span class="feature-icon">🔑</span><div><h5>Credentials</h5><p>Domain registrar access, Razorpay dashboard (we'll guide account creation)</p></div></div>
+      <div class="feature-item"><span class="feature-icon">✅</span><div><h5>Timely Feedback</h5><p>UAT feedback within 3 working days of staging delivery to keep the timeline on track</p></div></div>
+    </div>
+  </section>
+
+  <!-- TERMS & CONDITIONS -->
+  <section class="new-page">
+    <div class="section-label">Terms &amp; Conditions</div>
+    <h2>Agreement <span>Terms</span></h2>
+    <hr class="divider" />
+    <ul class="tc-list">
+      <li>This proposal is valid for 30 days from the date of issue (14 June 2026). Prices and timelines are subject to revision after the validity period.</li>
+      <li>Development begins upon receipt of the Milestone 1 payment (40% of development cost) and signed acceptance of this proposal.</li>
+      <li>Two (2) rounds of revision are included in the quoted price. Additional revisions beyond the agreed scope will be billed at ₹600/hr.</li>
+      <li>Third-party costs (hosting, domain, Razorpay fees) are invoiced directly to the client and are not included in our development fee.</li>
+      <li>Razorpay TDR is a variable cost paid directly to Razorpay per transaction. Atreya SoftTech has no control over or liability for these charges.</li>
+      <li>Source code and all deliverables become client property upon receipt of the final (Milestone 3) payment.</li>
+      <li>Atreya SoftTech will not be responsible for hosting downtime, third-party plugin failures, or WordPress core security issues outside our development scope.</li>
+      <li>A 30-day post-launch support window is included at no charge, covering bug fixes directly related to our development. New feature requests are billed separately.</li>
+      <li>Client-supplied content must be legally owned by the client. Atreya SoftTech is not liable for copyright infringement in client-provided materials.</li>
+      <li>Cancellation after Milestone 1: 40% non-refundable. Cancellation after Milestone 2: 80% non-refundable. Completed work billed at ₹600/hr.</li>
+      <li>Atreya SoftTech maintains confidentiality of all project details and client data. We will not share or sell client information to third parties.</li>
+      <li>Any dispute shall be resolved by arbitration in Mysore, Karnataka, India, under the Arbitration and Conciliation Act, 1996.</li>
+    </ul>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="new-page">
+    <div class="section-label">About Us</div>
+    <h2>About <span>Atreya SoftTech</span></h2>
+    <hr class="divider" />
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        <p>Atreya SoftTech Pvt. Ltd. is a Mysore-based software development company specialising in web applications, CMS platforms, and payment integrations for small and medium enterprises across India.</p>
+        <p>We deliver clean, maintainable code with a focus on performance, security, and business outcomes — not just technical delivery.</p>
+      </div>
+      <div class="info-box" style="margin:0">
+        <h4>📍 Contact Details</h4>
+        <p style="margin-bottom:6px"><strong>Atreya SoftTech Pvt. Ltd.</strong></p>
+        <p style="margin-bottom:4px">322, 11th Main, 1st Stage, Brindavan Extension, Mysore – 570020, Karnataka, India</p>
+        <p style="margin-bottom:4px">📧 rohith.mps@gmail.com</p>
+        <p style="margin-bottom:4px">📱 +91 87925 07355</p>
+        <p style="margin:0">🔢 GSTIN: 29AECPR7292B1ZA</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="doc-footer">
+    <span>Ref: AST-WP-2026-0614 &nbsp;·&nbsp; Atreya SoftTech Pvt. Ltd., Mysore &nbsp;·&nbsp; Confidential</span>
+    <span>Valid until 14 July 2026</span>
+  </div>
+
+</div>
+</body>
+</html>

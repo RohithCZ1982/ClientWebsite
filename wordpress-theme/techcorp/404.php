@@ -41,6 +41,6 @@
 
 <style>
 .hover-shadow { transition: box-shadow .2s,transform .2s; }
-.hover-shadow:hover { box-shadow: 0 4px 20px rgba(13,110,253,.12); transform: translateY(-3px); }
+.hover-shadow:hover { box-shadow: 0 4px 20px rgba(192,57,43,.12); transform: translateY(-3px); }
 </style>
 <?php get_footer(); ?>
